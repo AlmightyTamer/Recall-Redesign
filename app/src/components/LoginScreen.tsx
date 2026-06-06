@@ -101,7 +101,7 @@ export default function LoginScreen() {
           <AnimatedPanel panelKey="landing" stagger>
             <p className="login-eyebrow">Sign in</p>
             <p className="login-greeting" style={{ marginBottom: 0 }}>Who is using Recall?</p>
-            <div className="login-actions">
+            <div className="login-actions login-actions--role-select">
               <button
                 className="studio-btn studio-btn--primary tap-feedback"
                 onClick={() => { swapFlower(FLOWERS.patient); setRole('patient'); }}

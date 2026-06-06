@@ -320,6 +320,7 @@ html, body, #root {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 12px 36px var(--studio-shadow);
+  text-align: center;
 }
 
 .login-eyebrow {
@@ -328,6 +329,7 @@ html, body, #root {
   text-transform: uppercase;
   color: var(--studio-text-muted);
   margin: 0 0 4px;
+  text-align: center;
 }
 
 .login-title {
@@ -359,6 +361,14 @@ html, body, #root {
   flex-direction: column;
   gap: 10px;
   margin-top: 18px;
+  align-items: center;
+}
+
+.login-actions--role-select .studio-btn {
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
 }
 
 .studio-btn {
