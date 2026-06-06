@@ -240,7 +240,6 @@ export default function MedTracker() {
                     background: 'rgba(255,255,255,0.14)',
                     border: '1px solid rgba(255,255,255,0.22)',
                     color: '#ffffff',
-                    border: 'none',
                     borderRadius: 14,
                     padding: '12px 16px',
                     fontSize: 16,
