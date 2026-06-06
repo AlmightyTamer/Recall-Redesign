@@ -4,18 +4,30 @@ const BASE     = 'https://api.elevenlabs.io/v1';
 
 let currentAudio: HTMLAudioElement | null = null;
 let currentSource: AudioBufferSourceNode | null = null;
-
-// Shared AudioContext — created/resumed on first user gesture to satisfy iOS autoplay policy
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let audioCtx: AudioContext | null = null;
+let audioUnlocked = false;
 
+// Called directly inside a user-gesture handler (tap/click).
+// Plays a silent byte to permanently unlock iOS audio session for this page.
 export function unlockAudio(): void {
+  if (audioUnlocked) return;
   try {
+    // 1. Unlock via silent Audio element (most reliable for iOS Safari)
+    const silent = new Audio(
+      'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
+    );
+    silent.play().catch(() => {});
+
+    // 2. Also create/resume an AudioContext for the WebAudio path
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const AC = window.AudioContext ?? (window as any).webkitAudioContext;
-    if (!AC) return;
-    if (!audioCtx) audioCtx = new AC();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+    if (AC) {
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    audioUnlocked = true;
   } catch { /* non-critical */ }
 }
 
@@ -31,7 +43,6 @@ export async function speak(text: string): Promise<void> {
 }
 
 async function speakElevenLabs(text: string): Promise<void> {
-  // Try flash model first (faster, cheaper), fall back to turbo
   const models = ['eleven_flash_v2_5', 'eleven_turbo_v2_5', 'eleven_multilingual_v2'];
 
   let lastError = '';
@@ -55,39 +66,39 @@ async function speakElevenLabs(text: string): Promise<void> {
 
     const blob = await res.blob();
 
-    // Prefer AudioContext (bypasses iOS autoplay restriction)
+    // Path 1: Web Audio API (bypasses iOS async-gesture restriction)
     if (audioCtx) {
       try {
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
         const arrayBuffer = await blob.arrayBuffer();
         const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-        await new Promise<void>((resolve, reject) => {
+        await new Promise<void>((resolve) => {
           const source = audioCtx!.createBufferSource();
           source.buffer = audioBuffer;
           source.connect(audioCtx!.destination);
           currentSource = source;
           source.onended = () => { currentSource = null; resolve(); };
           source.start();
-          // Safety timeout — resolve after duration + 2s buffer
-          setTimeout(resolve, (audioBuffer.duration + 2) * 1000);
+          setTimeout(resolve, (audioBuffer.duration + 3) * 1000);
         });
         return;
       } catch (ctxErr) {
-        console.warn('[ElevenLabs] AudioContext playback failed, falling back to Audio element:', ctxErr);
+        console.warn('[ElevenLabs] AudioContext path failed, trying Audio element:', ctxErr);
       }
     }
 
-    // Fallback: standard Audio element
+    // Path 2: Standard Audio element fallback
     const url = URL.createObjectURL(blob);
     await new Promise<void>((resolve, reject) => {
       const audio = new Audio(url);
+      audio.setAttribute('playsinline', '');
       currentAudio = audio;
-      audio.onended = () => { URL.revokeObjectURL(url); currentAudio = null; resolve(); };
-      audio.onerror = (e) => { URL.revokeObjectURL(url); reject(new Error(`Audio playback failed: ${e}`)); };
+      audio.onended  = () => { URL.revokeObjectURL(url); currentAudio = null; resolve(); };
+      audio.onerror  = () => { URL.revokeObjectURL(url); reject(new Error('Audio playback failed')); };
       audio.play().catch(reject);
     });
-    return; // success
+    return;
   }
 
   throw new Error(lastError || 'All ElevenLabs models failed');
 }
-
