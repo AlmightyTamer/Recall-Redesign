@@ -160,56 +160,57 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 8vh 12vw 14vh;
   z-index: 0;
 }
 
 .flower-image {
   position: relative;
-  width: 54%;
-  max-width: 380px;
+  width: 30%;
+  max-width: 200px;
   height: auto;
-  max-height: 62vh;
+  max-height: 72vh;
   object-fit: contain;
   object-position: center center;
   will-change: transform, opacity, filter;
 }
 
 .flower-stage--hero .flower-image {
-  width: 50%;
-  max-width: 340px;
-  max-height: 56vh;
+  width: 28%;
+  max-width: 185px;
+  max-height: 68vh;
 }
 
 .flower-stage--app .flower-image {
-  width: 44%;
-  max-width: 300px;
-  max-height: 48vh;
-  opacity: 0.82;
+  width: 22%;
+  max-width: 150px;
+  max-height: 58vh;
+  opacity: 0.78;
 }
 
 .flower-glow {
   position: absolute;
-  width: 42%;
-  max-width: 280px;
+  width: 22%;
+  max-width: 140px;
   aspect-ratio: 1;
-  top: 50%;
+  top: 46%;
   left: 50%;
-  transform: translate(-50%, -52%);
-  background: radial-gradient(circle, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 40%, transparent 70%);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 40%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
 .flower-glow--inner {
-  width: 28%;
-  max-width: 180px;
-  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 65%);
+  width: 14%;
+  max-width: 90px;
+  background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, transparent 65%);
 }
 
 .flower-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center 40%, transparent 12%, rgba(0,0,0,0.35) 38%, rgba(0,0,0,0.88) 72%);
+  background: radial-gradient(ellipse at center 44%, transparent 8%, rgba(0,0,0,0.45) 32%, rgba(0,0,0,0.94) 68%);
   pointer-events: none;
   z-index: 2;
 }
@@ -225,12 +226,12 @@ html, body, #root {
 
 .flower-letterbox--top {
   top: 0;
-  height: 18%;
+  height: 24%;
 }
 
 .flower-letterbox--bottom {
   bottom: 0;
-  height: 28%;
+  height: 36%;
 }
 
 .smoke-root {
