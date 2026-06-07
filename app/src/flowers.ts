@@ -28,5 +28,3 @@ export function getFlowers(theme: ThemeMode = 'light'): Record<FlowerKey, string
   ) as Record<FlowerKey, string>;
 }
 
-/** @deprecated Use getFlowers(theme) for theme-aware paths */
-export const FLOWERS = getFlowers('dark');
