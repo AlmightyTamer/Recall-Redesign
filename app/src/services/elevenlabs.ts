@@ -114,12 +114,17 @@ async function fetchElevenLabsAudio(text: string, modelId: string): Promise<Blob
   };
 
   if (usesApiProxy()) {
-    const blob = await proxyPostBlob('/api/elevenlabs/tts', {
-      voiceId: VOICE_ID,
-      ...payload,
-    });
-    if (!blob.size) throw new Error('Proxy returned empty audio');
-    return blob;
+    try {
+      const blob = await proxyPostBlob('/api/elevenlabs/tts', {
+        voiceId: VOICE_ID,
+        ...payload,
+      });
+      if (!blob.size) throw new Error('Proxy returned empty audio');
+      return blob;
+    } catch (err) {
+      console.warn('ElevenLabs proxy failed, trying direct API:', err);
+      if (!ELEVENLABS_API_KEY?.trim()) throw err;
+    }
   }
 
   const res = await fetch(`${ELEVENLABS_BASE}/text-to-speech/${VOICE_ID}`, {

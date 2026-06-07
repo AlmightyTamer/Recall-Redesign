@@ -13,13 +13,18 @@ async function groqChat(messages: Message[]): Promise<string> {
   warnDirectApiKeys();
 
   if (usesApiProxy()) {
-    const data = await proxyPost<{ content: string }>('/api/groq/chat', {
-      model: MODEL,
-      messages,
-      max_tokens: 256,
-      temperature: 0.7,
-    });
-    return data.content;
+    try {
+      const data = await proxyPost<{ content: string }>('/api/groq/chat', {
+        model: MODEL,
+        messages,
+        max_tokens: 256,
+        temperature: 0.7,
+      });
+      return data.content;
+    } catch (err) {
+      console.warn('Groq proxy failed, trying direct API:', err);
+      if (!GROQ_API_KEY?.trim()) throw err;
+    }
   }
 
   const res = await fetch(`${GROQ_BASE}/chat/completions`, {

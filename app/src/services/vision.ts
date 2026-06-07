@@ -73,7 +73,23 @@ async function verifyWithGoogle(
   };
 
   if (usesApiProxy()) {
-    data = await proxyPost('/api/vision/annotate', { googleRequest });
+    try {
+      data = await proxyPost('/api/vision/annotate', { googleRequest });
+    } catch (err) {
+      console.warn('Vision proxy failed, trying direct API:', err);
+      if (!GOOGLE_VISION_KEY?.trim()) throw err;
+      warnDirectApiKeys();
+      const res = await fetch(
+        `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_VISION_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(googleRequest),
+        }
+      );
+      if (!res.ok) throw new Error(`Google Vision ${res.status}`);
+      data = await res.json();
+    }
   } else {
     warnDirectApiKeys();
     const res = await fetch(
@@ -163,8 +179,25 @@ Reply with JSON only: { "detected": true/false, "confidence": "high"/"medium"/"l
   let raw: string;
 
   if (usesApiProxy()) {
-    const data = await proxyPost<{ content: string }>('/api/groq/vision', payload);
-    raw = data.content;
+    try {
+      const data = await proxyPost<{ content: string }>('/api/groq/vision', payload);
+      raw = data.content;
+    } catch (err) {
+      console.warn('Groq vision proxy failed, trying direct API:', err);
+      if (!GROQ_API_KEY?.trim()) throw err;
+      warnDirectApiKeys();
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`Groq Vision ${res.status}`);
+      const data = await res.json();
+      raw = data.choices?.[0]?.message?.content ?? '{}';
+    }
   } else {
     warnDirectApiKeys();
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
