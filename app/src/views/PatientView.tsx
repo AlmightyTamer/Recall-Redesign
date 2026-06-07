@@ -10,16 +10,17 @@ import StudioIcon, { type IconName } from '../components/StudioIcon';
 import { useACSE } from '../hooks/useACSE';
 import { useAppStore } from '../store/appStore';
 import { db, type Event } from '../db/db';
-import { FLOWERS } from '../flowers';
+import { getFlowers, type FlowerKey } from '../flowers';
+import ThemeToggle from '../components/ThemeToggle';
 
 type Tab = 'home' | 'voice' | 'meds' | 'events' | 'stability';
 
-const TAB_FLOWERS: Record<Tab, string> = {
-  home: FLOWERS.home,
-  voice: FLOWERS.patient,
-  meds: FLOWERS.patientEnter,
-  events: FLOWERS.landing,
-  stability: FLOWERS.supervisor,
+const TAB_FLOWER_KEYS: Record<Tab, FlowerKey> = {
+  home: 'home',
+  voice: 'patient',
+  meds: 'patientEnter',
+  events: 'landing',
+  stability: 'supervisor',
 };
 
 const TABS: { id: Tab; label: string; icon: IconName }[] = [
@@ -50,7 +51,8 @@ function formatTime(ts: string): string {
 
 export default function PatientView() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
-  const { user, setScreen, acseScore } = useAppStore();
+  const { user, setScreen, acseScore, theme } = useAppStore();
+  const flowers = getFlowers(theme);
   const { recordNavigation } = useACSE();
 
   const handleTabChange = (tab: Tab) => {
@@ -67,7 +69,7 @@ export default function PatientView() {
 
   return (
     <StudioShell
-      flowerSrc={TAB_FLOWERS[activeTab]}
+      flowerSrc={flowers[TAB_FLOWER_KEYS[activeTab]]}
       contentKey={activeTab}
       dimOverlay={0.74}
       header={
@@ -78,6 +80,7 @@ export default function PatientView() {
               <span className="studio-header__greeting-label">{timeGreeting()}</span>
               <span className="studio-header__meta">{firstName}</span>
             </div>
+            <ThemeToggle />
             <button
               onClick={() => setScreen('login')}
               className="studio-icon-btn tap-feedback"

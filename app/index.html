@@ -6,6 +6,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="theme-color" content="#000000" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('recall-theme');
+          if (t === 'light') {
+            document.documentElement.dataset.theme = 'light';
+            var m = document.querySelector('meta[name="theme-color"]');
+            if (m) m.setAttribute('content', '#F8F4EF');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <meta name="description" content="Gentle cognitive care with Clara, medication tracking, and comfort mode." />
     <title>Recall</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

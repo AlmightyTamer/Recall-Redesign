@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { User } from '../db/db';
 import { db } from '../db/db';
+import { getStoredTheme, persistTheme, type ThemeMode } from '../lib/theme';
 
 export type AppScreen = 'loading' | 'login' | 'patient' | 'supervisor';
 
@@ -18,6 +19,7 @@ interface AppState {
   comfortModeActive: boolean;
   supervisorAlerts: SupervisorAlert[];
   isZooming: boolean;
+  theme: ThemeMode;
 
   setScreen: (screen: AppScreen) => void;
   setUser: (user: User) => void;
@@ -28,6 +30,8 @@ interface AppState {
   addSupervisorAlert: (alert: Omit<SupervisorAlert, 'id'>) => void;
   clearSupervisorAlert: (id: string) => void;
   setIsZooming: (v: boolean) => void;
+  setTheme: (theme: ThemeMode) => void;
+  toggleTheme: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -113,4 +117,15 @@ export const useAppStore = create<AppState>((set, get) => ({
     })),
 
   setIsZooming: (v) => set({ isZooming: v }),
+
+  setTheme: (theme) => {
+    persistTheme(theme);
+    set({ theme });
+  },
+
+  toggleTheme: () => {
+    const next = get().theme === 'dark' ? 'light' : 'dark';
+    persistTheme(next);
+    set({ theme: next });
+  },
 }));

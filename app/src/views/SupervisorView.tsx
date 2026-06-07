@@ -4,18 +4,19 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import StudioShell from '../components/StudioShell';
 import RecallLogo from '../components/RecallLogo';
 import StudioIcon, { type IconName } from '../components/StudioIcon';
-import { FLOWERS } from '../flowers';
+import { getFlowers, type FlowerKey } from '../flowers';
+import ThemeToggle from '../components/ThemeToggle';
 import { useAppStore } from '../store/appStore';
 import { db, type Event, type User } from '../db/db';
 
 type Tab = 'home' | 'events' | 'medications' | 'acse' | 'profile';
 
-const TAB_FLOWERS: Record<Tab, string> = {
-  home: FLOWERS.supervisorApp,
-  events: FLOWERS.landing,
-  medications: FLOWERS.patientEnter,
-  acse: FLOWERS.supervisor,
-  profile: FLOWERS.home,
+const TAB_FLOWER_KEYS: Record<Tab, FlowerKey> = {
+  home: 'supervisorApp',
+  events: 'landing',
+  medications: 'patientEnter',
+  acse: 'supervisor',
+  profile: 'home',
 };
 
 const TABS: { id: Tab; label: string; icon: IconName }[] = [
@@ -28,11 +29,12 @@ const TABS: { id: Tab; label: string; icon: IconName }[] = [
 
 export default function SupervisorView() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
-  const { user, supervisorAlerts, clearSupervisorAlert, setScreen } = useAppStore();
+  const { user, supervisorAlerts, clearSupervisorAlert, setScreen, theme } = useAppStore();
+  const flowers = getFlowers(theme);
 
   return (
     <StudioShell
-      flowerSrc={TAB_FLOWERS[activeTab]}
+      flowerSrc={flowers[TAB_FLOWER_KEYS[activeTab]]}
       contentKey={activeTab}
       dimOverlay={0.76}
       header={
@@ -44,8 +46,9 @@ export default function SupervisorView() {
               className="studio-icon-btn tap-feedback"
               aria-label="Log out"
             >
-              <StudioIcon name="logout" size={18} />
-            </button>
+                <StudioIcon name="logout" size={18} />
+              </button>
+            </div>
           </div>
           {supervisorAlerts.length > 0 && (
             <div className="alert-banner" style={{ position: 'relative', zIndex: 4, borderRadius: 0, display: 'flex', alignItems: 'center', gap: 10 }}>

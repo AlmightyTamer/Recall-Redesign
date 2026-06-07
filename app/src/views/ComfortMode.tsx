@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import BreathingCircle from '../components/BreathingCircle';
 import FlowerStage from '../components/FlowerStage';
 import StudioIcon from '../components/StudioIcon';
-import { FLOWERS } from '../flowers';
+import { getFlowers } from '../flowers';
 import { useAppStore } from '../store/appStore';
 import { generateGrounding, generateNarrative } from '../services/groq';
 import { speak, stopSpeaking } from '../services/elevenlabs';
@@ -11,7 +11,8 @@ import { db } from '../db/db';
 type Phase = 'grounding' | 'breathing' | 'narrative' | 'done';
 
 export default function ComfortMode() {
-  const { user, deactivateComfortMode } = useAppStore();
+  const { user, deactivateComfortMode, theme } = useAppStore();
+  const flowers = getFlowers(theme);
   const [phase, setPhase] = useState<Phase>('grounding');
   const [groundingText, setGroundingText] = useState('');
   const [narrativeText, setNarrativeText] = useState('');
@@ -79,7 +80,7 @@ export default function ComfortMode() {
 
   return (
     <div className="studio-screen comfort-mode" style={{ zIndex: 50 }}>
-      <FlowerStage src={FLOWERS.comfort} glowIntensity={1.1} variant="app" />
+      <FlowerStage src={flowers.comfort} glowIntensity={1.1} variant="app" />
       <div className="studio-app-scrim comfort-mode__scrim" />
 
       <div className="comfort-mode__content">

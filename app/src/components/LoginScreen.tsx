@@ -5,8 +5,9 @@ import gsap from 'gsap';
 import FlowerStage from './FlowerStage';
 import AnimatedPanel from './AnimatedPanel';
 import RecallLogo from './RecallLogo';
-import { FLOWERS } from '../flowers';
+import { getFlowers, type FlowerKey } from '../flowers';
 import { useAppStore } from '../store/appStore';
+import ThemeToggle from './ThemeToggle';
 import { db, type User } from '../db/db';
 import { seedIfEmpty } from '../db/seed';
 import { duration, EASE } from '../lib/motion';
@@ -16,10 +17,12 @@ import StudioIcon from './StudioIcon';
 type Role = 'patient' | 'supervisor' | null;
 
 export default function LoginScreen() {
-  const { setScreen, setUser } = useAppStore();
+  const { setScreen, setUser, theme } = useAppStore();
+  const flowers = getFlowers(theme);
   const [role, setRole] = useState<Role>(null);
   const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
-  const [flowerSrc, setFlowerSrc] = useState<string>(FLOWERS.landing);
+  const [flowerKey, setFlowerKey] = useState<FlowerKey>('landing');
+  const flowerSrc = flowers[flowerKey];
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [transitioning, setTransitioning] = useState(false);
@@ -28,7 +31,7 @@ export default function LoginScreen() {
 
   const patients = useLiveQuery(() => db.users.toArray(), []) ?? [];
 
-  const swapFlower = (src: string) => setFlowerSrc(src);
+  const swapFlower = (key: FlowerKey) => setFlowerKey(key);
 
   useEffect(() => {
     void seedIfEmpty();
@@ -69,7 +72,7 @@ export default function LoginScreen() {
 
   const enterApp = (target: 'patient' | 'supervisor') => {
     setTransitioning(true);
-    swapFlower(target === 'patient' ? FLOWERS.patientApp : FLOWERS.supervisorApp);
+    swapFlower(target === 'patient' ? 'patientApp' : 'supervisorApp');
     setTimeout(() => {
       setScreen(target);
       setTransitioning(false);
@@ -105,6 +108,10 @@ export default function LoginScreen() {
     <div ref={screenRef} className="studio-screen login-screen">
       <FlowerStage src={flowerSrc} glowIntensity={0.9} variant="hero" />
 
+      <div className="login-theme-toggle">
+        <ThemeToggle />
+      </div>
+
       <div className="login-top">
         <RecallLogo size="lg" />
         <p className="login-subtitle">Cognitive care, gently guided</p>
@@ -129,7 +136,7 @@ export default function LoginScreen() {
             <div className="login-actions login-actions--role-select">
               <button
                 className="studio-btn studio-btn--primary tap-feedback login-role-btn"
-                onClick={() => { swapFlower(FLOWERS.patient); setRole('patient'); setSelectedPatient(null); }}
+                onClick={() => { swapFlower('patient'); setRole('patient'); setSelectedPatient(null); }}
               >
                 <span className="login-role-btn__icon"><StudioIcon name="user" size={22} /></span>
                 <span className="studio-btn__label">Patient</span>
@@ -137,7 +144,7 @@ export default function LoginScreen() {
               </button>
               <button
                 className="studio-btn studio-btn--ghost tap-feedback login-role-btn"
-                onClick={() => { swapFlower(FLOWERS.supervisor); setRole('supervisor'); }}
+                onClick={() => { swapFlower('supervisor'); setRole('supervisor'); }}
               >
                 <span className="login-role-btn__icon"><StudioIcon name="profile" size={22} /></span>
                 <span className="studio-btn__label">Supervisor</span>
@@ -158,7 +165,7 @@ export default function LoginScreen() {
                   className="studio-btn studio-btn--primary tap-feedback login-patient-btn"
                   onClick={() => {
                     setSelectedPatient(p);
-                    swapFlower(FLOWERS.patient);
+                    swapFlower('patient');
                   }}
                 >
                   <span className="login-patient-btn__avatar">
@@ -175,7 +182,7 @@ export default function LoginScreen() {
               )}
               <button
                 className="studio-btn studio-btn--text"
-                onClick={() => { swapFlower(FLOWERS.landing); setRole(null); }}
+                onClick={() => { swapFlower('landing'); setRole(null); }}
               >
                 Back
               </button>
@@ -190,13 +197,13 @@ export default function LoginScreen() {
             <div className="login-actions login-actions--role-select" style={{ marginTop: 12 }}>
               <button
                 className="studio-btn studio-btn--primary tap-feedback"
-                onClick={() => { swapFlower(FLOWERS.patientEnter); setTimeout(() => handlePatientLogin(selectedPatient), 520); }}
+                onClick={() => { swapFlower('patientEnter'); setTimeout(() => handlePatientLogin(selectedPatient), 520); }}
               >
                 <span className="studio-btn__label">Enter Dashboard</span>
               </button>
               <button
                 className="studio-btn studio-btn--text"
-                onClick={() => { setSelectedPatient(null); swapFlower(FLOWERS.landing); }}
+                onClick={() => { setSelectedPatient(null); swapFlower('landing'); }}
               >
                 Back
               </button>
@@ -221,13 +228,13 @@ export default function LoginScreen() {
               {error && <p className="studio-error">{error}</p>}
               <button
                 className="studio-btn studio-btn--primary tap-feedback"
-                onClick={() => { swapFlower(FLOWERS.supervisorEnter); setTimeout(handleSupervisorLogin, 520); }}
+                onClick={() => { swapFlower('supervisorEnter'); setTimeout(handleSupervisorLogin, 520); }}
               >
                 <span className="studio-btn__label">Sign In</span>
               </button>
               <button
                 className="studio-btn studio-btn--text"
-                onClick={() => { swapFlower(FLOWERS.landing); setRole(null); setPassword(''); setError(''); }}
+                onClick={() => { swapFlower('landing'); setRole(null); setPassword(''); setError(''); }}
               >
                 Back
               </button>

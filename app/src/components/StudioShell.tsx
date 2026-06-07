@@ -1,9 +1,10 @@
-import { ReactNode, useRef } from 'react';
+import { type CSSProperties, ReactNode, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import FlowerStage from './FlowerStage';
 import AnimatedPanel from './AnimatedPanel';
-import { FLOWERS } from '../flowers';
+import { getFlowers } from '../flowers';
+import { useAppStore } from '../store/appStore';
 import { duration, EASE } from '../lib/motion';
 
 interface StudioShellProps {
@@ -17,19 +18,21 @@ interface StudioShellProps {
 
 export default function StudioShell({
   children,
-  flowerSrc = FLOWERS.home,
+  flowerSrc,
   contentKey,
   header,
   footer,
   dimOverlay = 0.76,
 }: StudioShellProps) {
+  const theme = useAppStore((s) => s.theme);
+  const resolvedFlower = flowerSrc ?? getFlowers(theme).home;
   const scrimRef = useRef<HTMLDivElement>(null);
-  const prevFlower = useRef(flowerSrc);
+  const prevFlower = useRef(resolvedFlower);
 
   useGSAP(
     () => {
-      if (flowerSrc === prevFlower.current) return;
-      prevFlower.current = flowerSrc;
+      if (resolvedFlower === prevFlower.current) return;
+      prevFlower.current = resolvedFlower;
 
       if (scrimRef.current) {
         gsap.fromTo(
@@ -39,21 +42,19 @@ export default function StudioShell({
         );
       }
     },
-    { dependencies: [flowerSrc] }
+    { dependencies: [resolvedFlower] }
   );
 
   return (
     <div className="studio-screen studio-app">
-      <FlowerStage src={flowerSrc} glowIntensity={0.6} variant="app" />
+      <FlowerStage src={resolvedFlower} glowIntensity={0.6} variant="app" />
       <div
         ref={scrimRef}
         className="studio-app-scrim"
-        style={{
-          background: `linear-gradient(180deg, rgba(0,0,0,${dimOverlay + 0.06}) 0%, rgba(0,0,0,${dimOverlay}) 35%, rgba(0,0,0,${dimOverlay + 0.04}) 100%)`,
-        }}
+        style={{ '--scrim-opacity': String(dimOverlay) } as CSSProperties}
       />
       {header}
-      <AnimatedPanel panelKey={contentKey ?? flowerSrc} className="studio-app-content">
+      <AnimatedPanel panelKey={contentKey ?? resolvedFlower} className="studio-app-content">
         {children}
       </AnimatedPanel>
       {footer}

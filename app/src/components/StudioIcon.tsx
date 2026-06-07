@@ -25,7 +25,8 @@ export type IconName =
   | 'low'
   | 'flower'
   | 'refresh'
-  | 'sun';
+  | 'sun'
+  | 'moon';
 
 interface StudioIconProps {
   name: IconName;
@@ -188,6 +189,11 @@ const PATHS: Record<IconName, JSX.Element> = {
     <>
       <circle cx="12" cy="12" r="3.5" />
       <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4" />
+    </>
+  ),
+  moon: (
+    <>
+      <path d="M20 14.5A7.5 7.5 0 019.5 4 6.5 6.5 0 1014 20a7.5 7.5 0 006-5.5z" />
     </>
   ),
 };

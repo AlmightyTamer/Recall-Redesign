@@ -4,11 +4,13 @@ import gsap from 'gsap';
 import { useAppStore } from '../store/appStore';
 import FlowerStage from './FlowerStage';
 import RecallLogo from './RecallLogo';
-import { FLOWERS } from '../flowers';
+import { getFlowers } from '../flowers';
 import { duration, EASE } from '../lib/motion';
 
 export default function LoadingScreen() {
   const setScreen = useAppStore((s) => s.setScreen);
+  const theme = useAppStore((s) => s.theme);
+  const flowers = getFlowers(theme);
   const screenRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -53,11 +55,10 @@ export default function LoadingScreen() {
 
   return (
     <div ref={screenRef} className="studio-screen splash-screen">
-      <FlowerStage src={FLOWERS.splash} glowIntensity={1.2} variant="hero" />
+      <FlowerStage src={flowers.splash} glowIntensity={1.2} variant="hero" />
       <div
         ref={contentRef}
         className="login-top splash-wordmark"
-        style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.85) 0%, transparent 100%)' }}
       >
         <RecallLogo size="lg" />
         <p className="splash-tagline">Cognitive Care</p>

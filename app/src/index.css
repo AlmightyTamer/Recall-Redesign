@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 /* ── iOS safe-area & base resets ── */
-:root {
+:root,
+[data-theme='dark'] {
   --sat: env(safe-area-inset-top, 0px);
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
@@ -19,9 +20,43 @@
   --studio-accent-soft: rgba(255, 255, 255, 0.12);
   --studio-border: rgba(255, 255, 255, 0.12);
   --studio-shadow: rgba(0, 0, 0, 0.6);
+  --studio-scrim-rgb: 0, 0, 0;
+  --studio-scrim-base: 0.76;
+  --studio-header-fade: rgba(0, 0, 0, 0.92);
+  --studio-glow-rgb: 255, 255, 255;
+  --studio-smoke-rgb: 255, 255, 255;
+  --studio-vignette-inner: rgba(0, 0, 0, 0.25);
+  --studio-vignette-outer: rgba(0, 0, 0, 0.65);
+  --studio-skeleton-a: rgba(255, 255, 255, 0.06);
+  --studio-skeleton-b: rgba(255, 255, 255, 0.12);
+  --studio-mic-pulse: rgba(255, 255, 255, 0.35);
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   user-select: none;
+}
+
+[data-theme='light'] {
+  --studio-bg: #F8F4EF;
+  --studio-bg-deep: #F0EBE3;
+  --studio-surface: rgba(255, 255, 255, 0.9);
+  --studio-surface-soft: rgba(0, 0, 0, 0.04);
+  --studio-text: #2c2c2c;
+  --studio-text-muted: rgba(0, 0, 0, 0.62);
+  --studio-text-bright: #1a1a1a;
+  --studio-accent: rgba(0, 0, 0, 0.82);
+  --studio-accent-soft: rgba(0, 0, 0, 0.08);
+  --studio-border: rgba(0, 0, 0, 0.1);
+  --studio-shadow: rgba(0, 0, 0, 0.1);
+  --studio-scrim-rgb: 248, 244, 239;
+  --studio-scrim-base: 0.42;
+  --studio-header-fade: rgba(248, 244, 239, 0.94);
+  --studio-glow-rgb: 255, 220, 160;
+  --studio-smoke-rgb: 120, 110, 100;
+  --studio-vignette-inner: rgba(248, 244, 239, 0.1);
+  --studio-vignette-outer: rgba(200, 190, 175, 0.35);
+  --studio-skeleton-a: rgba(0, 0, 0, 0.05);
+  --studio-skeleton-b: rgba(0, 0, 0, 0.09);
+  --studio-mic-pulse: rgba(0, 0, 0, 0.14);
 }
 
 html, body, #root {
@@ -77,8 +112,8 @@ html, body, #root {
 
 /* ── Mic listening pulse ── */
 @keyframes micPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35); }
-  50%       { box-shadow: 0 0 0 24px rgba(255, 255, 255, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 var(--studio-mic-pulse); }
+  50%       { box-shadow: 0 0 0 24px transparent; }
 }
 .mic-listening {
   animation: micPulse 1.5s ease-in-out infinite;
@@ -108,7 +143,7 @@ html, body, #root {
   100% { background-position: 400px 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 75%);
+  background: linear-gradient(90deg, var(--studio-skeleton-a) 25%, var(--studio-skeleton-b) 50%, var(--studio-skeleton-a) 75%);
   background-size: 800px 100%;
   animation: shimmer 1.4s ease-in-out infinite;
   border-radius: 8px;
@@ -228,7 +263,7 @@ html, body, #root {
   top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(var(--studio-glow-rgb), 0.12) 0%, rgba(var(--studio-glow-rgb), 0.03) 40%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -236,13 +271,13 @@ html, body, #root {
 .flower-glow--inner {
   width: 14%;
   max-width: 90px;
-  background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(var(--studio-glow-rgb), 0.16) 0%, transparent 65%);
 }
 
 .flower-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center 48%, transparent 35%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.65) 88%);
+  background: radial-gradient(ellipse at center 48%, transparent 35%, var(--studio-vignette-inner) 60%, var(--studio-vignette-outer) 88%);
   pointer-events: none;
   z-index: 2;
 }
@@ -259,7 +294,7 @@ html, body, #root {
   position: absolute;
   border-radius: 50%;
   filter: blur(52px);
-  background: radial-gradient(circle, rgba(255,255,255,0.14) 0%, transparent 72%);
+  background: radial-gradient(circle, rgba(var(--studio-smoke-rgb), 0.14) 0%, transparent 72%);
   opacity: 0.1;
   will-change: transform, opacity;
 }
@@ -304,7 +339,7 @@ html, body, #root {
   z-index: 6;
   padding: max(20px, calc(var(--sat) + 12px)) 24px 16px;
   text-align: center;
-  background: linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+  background: linear-gradient(180deg, var(--studio-header-fade) 0%, rgba(var(--studio-scrim-rgb), 0.5) 70%, transparent 100%);
 }
 
 .login-panel {
@@ -428,8 +463,8 @@ html, body, #root {
 .studio-input:focus,
 .studio-textarea:focus,
 .studio-select:focus {
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+  border-color: var(--studio-accent-soft);
+  box-shadow: 0 0 0 3px var(--studio-surface-soft);
 }
 
 .studio-error {
@@ -450,7 +485,14 @@ html, body, #root {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease, background 0.35s ease;
+  --scrim-opacity: 0.76;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--studio-scrim-rgb), calc(var(--scrim-opacity) + 0.06)) 0%,
+    rgba(var(--studio-scrim-rgb), var(--scrim-opacity)) 35%,
+    rgba(var(--studio-scrim-rgb), calc(var(--scrim-opacity) + 0.04)) 100%
+  );
 }
 
 .studio-app-content {
@@ -463,10 +505,22 @@ html, body, #root {
   transition: opacity 0.2s ease;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.38) 0%,
-    rgba(0, 0, 0, 0.62) 40%,
-    rgba(0, 0, 0, 0.72) 100%
+    rgba(var(--studio-scrim-rgb), 0.38) 0%,
+    rgba(var(--studio-scrim-rgb), 0.62) 40%,
+    rgba(var(--studio-scrim-rgb), 0.72) 100%
   );
+}
+
+.login-theme-toggle {
+  position: absolute;
+  top: max(20px, calc(var(--sat) + 12px));
+  right: max(16px, calc(var(--sar) + 12px));
+  z-index: 7;
+}
+
+.theme-toggle[aria-pressed='true'] {
+  background: var(--studio-surface-soft);
+  border-color: var(--studio-border);
 }
 
 .studio-header {
@@ -1159,7 +1213,7 @@ html, body, #root {
 
 /* ── Comfort mode ── */
 .comfort-mode__scrim {
-  background: rgba(0, 0, 0, 0.62);
+  background: rgba(var(--studio-scrim-rgb), 0.62);
   z-index: 2;
 }
 

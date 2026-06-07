@@ -5,9 +5,11 @@ import { useGSAP } from '@gsap/react';
 import App from './App';
 import './index.css';
 import { applyGsapDefaults } from './lib/motion';
+import { initTheme } from './lib/theme';
 
 gsap.registerPlugin(useGSAP);
 applyGsapDefaults();
+initTheme();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
