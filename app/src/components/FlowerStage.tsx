@@ -3,6 +3,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import SmokeVapour from './SmokeVapour';
 import { duration, EASE, prefersReducedMotion } from '../lib/motion';
+import { useAppStore } from '../store/appStore';
 
 interface FlowerStageProps {
   src: string;
@@ -17,6 +18,7 @@ export default function FlowerStage({
   glowIntensity = 1,
   variant = 'hero',
 }: FlowerStageProps) {
+  const theme = useAppStore((s) => s.theme);
   const rootRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,7 @@ export default function FlowerStage({
   const layerBRef = useRef<HTMLImageElement>(null);
   const activeLayer = useRef<'a' | 'b'>('a');
   const displayedSrc = useRef(src);
+  const prevTheme = useRef(theme);
   const breatheTween = useRef<gsap.core.Tween | null>(null);
   const glowTween = useRef<gsap.core.Tween | null>(null);
   const hasEntered = useRef(false);
@@ -39,6 +42,25 @@ export default function FlowerStage({
     if (document.hidden) return;
     breatheTween.current?.resume();
     glowTween.current?.resume();
+  };
+
+  const applyImageToLayer = (layer: HTMLImageElement | null, nextSrc: string, opacity: number) => {
+    if (!layer) return;
+    layer.src = nextSrc;
+    gsap.set(layer, { opacity, scale: 1, filter: 'none' });
+  };
+
+  const resetForTheme = (nextSrc: string) => {
+    activeLayer.current = 'a';
+    displayedSrc.current = nextSrc;
+    applyImageToLayer(layerARef.current, nextSrc, targetOpacity);
+    if (layerBRef.current) {
+      layerBRef.current.removeAttribute('src');
+      gsap.set(layerBRef.current, { opacity: 0, scale: 1, filter: 'none', zIndex: 0 });
+    }
+    if (layerARef.current) {
+      gsap.set(layerARef.current, { zIndex: 1 });
+    }
   };
 
   useGSAP(
@@ -98,8 +120,17 @@ export default function FlowerStage({
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
+  // Theme toggle: swap immediately to the matching light/dark asset set.
+  useEffect(() => {
+    if (theme === prevTheme.current) return;
+    prevTheme.current = theme;
+    resetForTheme(src);
+  }, [theme, src, targetOpacity]);
+
   useEffect(() => {
     if (src === displayedSrc.current) return;
+
+    let cancelled = false;
 
     const outgoing =
       activeLayer.current === 'a' ? layerARef.current : layerBRef.current;
@@ -107,8 +138,9 @@ export default function FlowerStage({
       activeLayer.current === 'a' ? layerBRef.current : layerARef.current;
     if (!outgoing || !incoming) return;
 
-    const img = new Image();
-    img.onload = () => {
+    const swapToSrc = () => {
+      if (cancelled || src === displayedSrc.current) return;
+
       incoming.src = src;
       displayedSrc.current = src;
 
@@ -152,7 +184,18 @@ export default function FlowerStage({
           activeLayer.current = activeLayer.current === 'a' ? 'b' : 'a';
         });
     };
+
+    const img = new Image();
+    img.onload = swapToSrc;
+    img.onerror = () => {
+      if (!cancelled) swapToSrc();
+    };
     img.src = src;
+    if (img.complete) swapToSrc();
+
+    return () => {
+      cancelled = true;
+    };
   }, [src, targetOpacity]);
 
   return (

@@ -80,7 +80,12 @@ export default function ComfortMode() {
 
   return (
     <div className="studio-screen comfort-mode" style={{ zIndex: 50 }}>
-      <FlowerStage src={flowers.comfort} glowIntensity={1.1} variant="app" />
+      <FlowerStage
+        key={`${theme}-comfort`}
+        src={flowers.comfort}
+        glowIntensity={1.1}
+        variant="app"
+      />
       <div className="studio-app-scrim comfort-mode__scrim" />
 
       <div className="comfort-mode__content">

@@ -48,7 +48,12 @@ export default function StudioShell({
 
   return (
     <div className="studio-screen studio-app">
-      <FlowerStage src={resolvedFlower} glowIntensity={0.6} variant="app" />
+      <FlowerStage
+        key={`${theme}-${resolvedFlower}`}
+        src={resolvedFlower}
+        glowIntensity={0.6}
+        variant="app"
+      />
       <div
         ref={scrimRef}
         className="studio-app-scrim"

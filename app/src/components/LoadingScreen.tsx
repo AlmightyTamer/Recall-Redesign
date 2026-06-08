@@ -56,7 +56,12 @@ export default function LoadingScreen() {
 
   return (
     <div ref={screenRef} className="studio-screen splash-screen">
-      <FlowerStage src={flowers.splash} glowIntensity={1.2} variant="hero" />
+      <FlowerStage
+        key={`${theme}-splash`}
+        src={flowers.splash}
+        glowIntensity={1.2}
+        variant="hero"
+      />
       <div className="login-theme-toggle splash-theme-toggle">
         <ThemeToggle />
       </div>

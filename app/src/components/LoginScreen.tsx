@@ -106,7 +106,12 @@ export default function LoginScreen() {
 
   return (
     <div ref={screenRef} className="studio-screen login-screen">
-      <FlowerStage src={flowerSrc} glowIntensity={0.9} variant="hero" />
+      <FlowerStage
+        key={`${theme}-${flowerKey}`}
+        src={flowerSrc}
+        glowIntensity={0.9}
+        variant="hero"
+      />
 
       <div className="login-theme-toggle">
         <ThemeToggle />
