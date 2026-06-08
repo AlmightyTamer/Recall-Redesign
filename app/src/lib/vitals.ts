@@ -111,7 +111,7 @@ export function getPatientVitals(patientName = 'Margaret'): VitalsSnapshot {
 }
 
 export function statusColor(status: VitalReading['status']): string {
-  if (status === 'alert') return 'var(--cheer-coral, #EF4444)';
-  if (status === 'watch') return 'var(--cheer-sun, #F59E0B)';
-  return 'var(--cheer-mint, #10B981)';
+  if (status === 'alert') return '#EF4444';
+  if (status === 'watch') return '#F59E0B';
+  return '#10B981';
 }

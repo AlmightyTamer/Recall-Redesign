@@ -1,77 +1,55 @@
 #!/usr/bin/env python3
-"""Build light-theme flower assets from dark PNG sources."""
+"""Build light-theme flower assets from dark PNG sources.
+
+Keeps the exact same composition as dark mode: colorful flower pixels are
+unchanged, black background becomes warm cream, and grayscale smoke/fog is
+mirrored so it reads on a light canvas.
+"""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from PIL import Image, ImageEnhance, ImageFilter, ImageOps
+import numpy as np
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT / "public" / "flowers"
 OUT_DIR = ROOT / "public" / "flowers" / "light"
-CREAM = (236, 230, 220)
+
+# Matches --studio-bg in light theme
+BG = np.array([248, 244, 239], dtype=np.float32)
+BG_THRESHOLD = 14
+SMOKE_SAT_MAX = 35
 
 
 def build_light_variant(src: Path) -> None:
-    img = Image.open(src).convert("RGBA")
-    width, height = img.size
+    im = np.array(Image.open(src).convert("RGB"), dtype=np.float32)
+    lum = 0.299 * im[:, :, 0] + 0.587 * im[:, :, 1] + 0.114 * im[:, :, 2]
+    sat = im.max(axis=2) - im.min(axis=2)
 
-    cream = Image.new("RGB", (width, height), CREAM)
-    rgb = img.convert("RGB")
-    lum = img.convert("L")
-    alpha = img.split()[3]
+    out = np.tile(BG, (im.shape[0], im.shape[1], 1))
 
-    mask = lum.point(lambda p: 255 if p > 20 else 0)
-    composed = cream.copy()
-    composed.paste(rgb, mask=mask)
+    bg = lum <= BG_THRESHOLD
+    smoke = (~bg) & (sat <= SMOKE_SAT_MAX)
+    color = (~bg) & (~smoke)
 
-    # Soft drop shadow so petals read on cream.
-    shadow = alpha.filter(ImageFilter.GaussianBlur(18))
-    shadow = ImageEnhance.Brightness(shadow).enhance(0.45)
-    shadow_rgba = Image.merge(
-        "RGBA",
-        (
-            shadow.point(lambda p: 110),
-            shadow.point(lambda p: 102),
-            shadow.point(lambda p: 94),
-            shadow.point(lambda p: min(72, int(p * 0.4))),
-        ),
-    )
-    shadow_layer = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    shadow_layer.paste(shadow_rgba, (0, 14), shadow_rgba)
+    out[color] = im[color]
 
-    composed = composed.convert("RGBA")
-    composed = Image.alpha_composite(composed, shadow_layer)
-
-    # Warm atmospheric smoke.
-    smoke_src = ImageOps.autocontrast(lum, cutoff=1).filter(ImageFilter.GaussianBlur(radius=24))
-    smoke_rgba = Image.merge(
-        "RGBA",
-        (
-            smoke_src.point(lambda p: 150),
-            smoke_src.point(lambda p: 140),
-            smoke_src.point(lambda p: 128),
-            smoke_src.point(lambda p: min(48, int(p * 0.18))),
-        ),
-    )
-    composed = Image.alpha_composite(composed, smoke_rgba)
-
-    # Slight petal definition on flower pixels only.
-    boosted = ImageEnhance.Contrast(composed).enhance(1.12)
-    composed = Image.composite(boosted, composed, mask.filter(ImageFilter.GaussianBlur(1)))
-
-    composed = ImageEnhance.Color(composed).enhance(1.05)
+    if smoke.any():
+        l = lum[smoke]
+        t = np.clip((l - BG_THRESHOLD) / (255 - BG_THRESHOLD), 0, 1)
+        smoke_rgb = BG - t[:, None] * np.array([55, 58, 62], dtype=np.float32)
+        out[smoke] = np.clip(smoke_rgb, 0, 255)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     stem = src.stem
-    composed.save(OUT_DIR / f"{stem}.png", optimize=True)
-    composed.convert("RGB").save(
-        OUT_DIR / f"{stem}.webp",
-        format="WEBP",
-        quality=84,
-        method=4,
-    )
+    png_path = OUT_DIR / f"{stem}.png"
+    webp_path = OUT_DIR / f"{stem}.webp"
+
+    result = Image.fromarray(out.astype(np.uint8))
+    result.save(png_path, optimize=True)
+    result.save(webp_path, format="WEBP", quality=84, method=4)
     print(f"✓ {stem}")
 
 

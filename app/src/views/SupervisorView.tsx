@@ -492,7 +492,7 @@ function MedicationsTab({ user }: { user: User | null }) {
           </div>
           <div className="supervisor-meds__item-actions">
             <button className="studio-icon-btn tap-feedback" aria-label="Edit" onClick={() => startEdit(i)}><StudioIcon name="refresh" size={16} /></button>
-            <button className="studio-icon-btn tap-feedback" aria-label="Delete" style={{ color: 'var(--cheer-coral)' }} onClick={() => handleDelete(i)}><StudioIcon name="close" size={16} /></button>
+            <button className="studio-icon-btn tap-feedback" aria-label="Delete" style={{ color: '#EF4444' }} onClick={() => handleDelete(i)}><StudioIcon name="close" size={16} /></button>
           </div>
         </div>
       ))}

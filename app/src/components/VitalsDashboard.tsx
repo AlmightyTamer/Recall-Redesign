@@ -33,7 +33,7 @@ function VitalCard({ vital, accent }: { vital: VitalReading; accent: string }) {
 
 export default function VitalsDashboard({ patientName }: { patientName?: string }) {
   const vitals = useMemo(() => getPatientVitals(patientName), [patientName]);
-  const accents = ['var(--cheer-coral)', 'var(--cheer-sky)', 'var(--cheer-lavender)', 'var(--cheer-sun)', 'var(--cheer-mint)'];
+  const accents = ['#2196F3', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
 
   const sitting = vitals.orthostatic[0];
   const standing = vitals.orthostatic[1];
