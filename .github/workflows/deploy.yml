@@ -49,7 +49,6 @@ jobs:
           GOOGLE_VISION_KEY: AIzaSyB3qfZObc0PD8EE7hc9fEHUgHj74GG4DiI
 
   deploy:
-    needs: deploy-worker
     runs-on: ubuntu-latest
     environment:
       name: github-pages

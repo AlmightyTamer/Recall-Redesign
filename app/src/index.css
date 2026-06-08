@@ -2,13 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── iOS safe-area & base resets ── */
-:root,
-[data-theme='dark'] {
+/* ── iOS safe-area & base resets (light theme is default) ── */
+:root {
   --sat: env(safe-area-inset-top, 0px);
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
   --sar: env(safe-area-inset-right, 0px);
+  --cheer-coral: #FF6B6B;
+  --cheer-sun: #FFB347;
+  --cheer-mint: #6BCB77;
+  --cheer-sky: #4D96FF;
+  --cheer-lavender: #B388FF;
+  --cheer-peach: #FFDAB9;
+  --studio-bg: #FFF9F5;
+  --studio-bg-deep: #FFE8F0;
+  --studio-surface: rgba(255, 255, 255, 0.92);
+  --studio-surface-soft: rgba(255, 107, 107, 0.08);
+  --studio-text: #2D3436;
+  --studio-text-muted: rgba(45, 52, 54, 0.68);
+  --studio-text-bright: #1a1a2e;
+  --studio-accent: #4D96FF;
+  --studio-accent-soft: rgba(77, 150, 255, 0.15);
+  --studio-border: rgba(77, 150, 255, 0.18);
+  --studio-shadow: rgba(255, 107, 107, 0.12);
+  --studio-scrim-rgb: 255, 249, 245;
+  --studio-scrim-base: 0.38;
+  --studio-header-fade: rgba(255, 249, 245, 0.92);
+  --studio-glow-rgb: 255, 180, 120;
+  --studio-smoke-rgb: 180, 200, 255;
+  --studio-vignette-inner: rgba(255, 249, 245, 0.05);
+  --studio-vignette-outer: rgba(255, 200, 180, 0.25);
+  --studio-skeleton-a: rgba(77, 150, 255, 0.06);
+  --studio-skeleton-b: rgba(255, 107, 107, 0.1);
+  --studio-mic-pulse: rgba(77, 150, 255, 0.35);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+[data-theme='dark'] {
   --studio-bg: #000000;
   --studio-bg-deep: #000000;
   --studio-surface: rgba(12, 12, 12, 0.72);
@@ -30,12 +62,10 @@
   --studio-skeleton-a: rgba(255, 255, 255, 0.06);
   --studio-skeleton-b: rgba(255, 255, 255, 0.12);
   --studio-mic-pulse: rgba(255, 255, 255, 0.35);
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  user-select: none;
 }
 
 [data-theme='light'] {
+  /* explicit light — same tokens as :root for toggle consistency */
   --cheer-coral: #FF6B6B;
   --cheer-sun: #FFB347;
   --cheer-mint: #6BCB77;
