@@ -84,65 +84,64 @@ textarea {
 }
 
 [data-theme='dark'] {
-  /* ── Luxury soft dark palette ── */
-  --recall-coral: #C9A564;
-  --recall-sage: #6DAA8F;
-  --recall-lavender: #A896D8;
-  --recall-gold: #C9A564;
+  --recall-coral: #F5A623;
+  --recall-sage: #34D399;
+  --recall-lavender: #60A5FA;
+  --recall-gold: #F5A623;
 
-  --studio-bg: #000000;
-  --studio-bg-deep: #000000;
-  --studio-surface: rgba(255, 248, 230, 0.06);
-  --studio-surface-soft: rgba(255, 248, 230, 0.04);
-  --studio-text: #f5f5f7;
-  --studio-text-muted: rgba(245, 245, 247, 0.48);
-  --studio-text-bright: #ffffff;
-  --studio-accent: #0071e3;
-  --studio-accent-soft: rgba(0, 113, 227, 0.12);
-  --studio-border: rgba(201, 165, 100, 0.13);
-  --studio-shadow: rgba(0, 0, 0, 0.65);
-  --studio-scrim-rgb: 9, 7, 15;
-  --studio-scrim-base: 0.82;
-  --studio-header-fade: rgba(9, 7, 15, 0.96);
-  --studio-glow-rgb: 201, 165, 100;
-  --studio-smoke-rgb: 201, 165, 100;
-  --studio-vignette-inner: rgba(9, 7, 15, 0.15);
-  --studio-vignette-outer: rgba(9, 7, 15, 0.70);
-  --studio-skeleton-a: rgba(255, 248, 230, 0.04);
-  --studio-skeleton-b: rgba(255, 248, 230, 0.09);
-  --studio-mic-pulse: rgba(201, 165, 100, 0.4);
-  --studio-card-bg: rgba(255, 255, 255, 0.06);
-  --studio-card-border: rgba(255, 255, 255, 0.10);
-  --studio-card-inset: rgba(255, 248, 230, 0.07);
-  --studio-chrome-bg: rgba(9, 7, 15, 0.90);
-  --studio-tabbar-bg: rgba(9, 7, 15, 0.94);
-  --studio-input-bg: rgba(9, 7, 15, 0.7);
-  --studio-input-placeholder: rgba(232, 223, 204, 0.38);
-  --studio-bubble-user-bg: rgba(201, 165, 100, 0.12);
-  --studio-bubble-user-border: rgba(201, 165, 100, 0.22);
-  --studio-bubble-assistant-bg: rgba(9, 7, 15, 0.65);
-  --studio-btn-hover-bg: rgba(201, 165, 100, 0.08);
-  --studio-btn-hover-border: rgba(201, 165, 100, 0.28);
-  --studio-btn-hover-shadow: rgba(201, 165, 100, 0.12);
-  --studio-btn-primary-bg: rgba(201, 165, 100, 0.14);
-  --studio-btn-primary-border: rgba(201, 165, 100, 0.30);
-  --studio-btn-ghost-bg: rgba(9, 7, 15, 0.5);
-  --studio-tab-active-bg: rgba(201, 165, 100, 0.08);
-  --studio-tab-active-border: rgba(201, 165, 100, 0.18);
-  --studio-chip-active-bg: rgba(201, 165, 100, 0.12);
-  --studio-chip-active-border: rgba(201, 165, 100, 0.32);
-  --studio-focus-ring: rgba(201, 165, 100, 0.55);
-  --studio-accent-line: linear-gradient(90deg, rgba(201, 165, 100, 0.55), rgba(201, 165, 100, 0.12));
-  --studio-progress-track: rgba(255, 248, 230, 0.10);
-  --studio-progress-fill: #C9A564;
-  --studio-content-gradient-a: 0.50;
-  --studio-content-gradient-b: 0.75;
-  --studio-content-gradient-c: 0.90;
-  --studio-score-ring-active: #C9A564;
-  --studio-score-ring-track: rgba(255, 248, 230, 0.10);
-  --studio-score-ring-shadow: rgba(201, 165, 100, 0.25);
-  --studio-highlight-border: rgba(201, 165, 100, 0.20);
-  --studio-icon-surface-border: rgba(201, 165, 100, 0.14);
+  --studio-bg: #0A0912;
+  --studio-bg-deep: #060508;
+  --studio-surface: rgba(255, 255, 255, 0.045);
+  --studio-surface-soft: rgba(255, 255, 255, 0.025);
+  --studio-text: #F0E6D0;
+  --studio-text-muted: rgba(240, 230, 208, 0.42);
+  --studio-text-bright: #FAF5EC;
+  --studio-accent: #F5A623;
+  --studio-accent-soft: rgba(245, 166, 35, 0.12);
+  --studio-border: rgba(255, 255, 255, 0.08);
+  --studio-shadow: rgba(0, 0, 0, 0.35);
+  --studio-scrim-rgb: 10, 9, 18;
+  --studio-scrim-base: 0.6;
+  --studio-header-fade: rgba(10, 9, 18, 0.92);
+  --studio-glow-rgb: 245, 166, 35;
+  --studio-smoke-rgb: 180, 160, 120;
+  --studio-vignette-inner: rgba(10, 9, 18, 0.1);
+  --studio-vignette-outer: rgba(10, 9, 18, 0.6);
+  --studio-skeleton-a: rgba(255, 255, 255, 0.04);
+  --studio-skeleton-b: rgba(255, 255, 255, 0.08);
+  --studio-mic-pulse: rgba(245, 166, 35, 0.18);
+  --studio-card-bg: rgba(255, 255, 255, 0.045);
+  --studio-card-border: rgba(255, 255, 255, 0.08);
+  --studio-card-inset: rgba(255, 255, 255, 0.03);
+  --studio-chrome-bg: rgba(10, 9, 18, 0.92);
+  --studio-tabbar-bg: rgba(14, 12, 22, 0.96);
+  --studio-input-bg: rgba(255, 255, 255, 0.06);
+  --studio-input-placeholder: rgba(240, 230, 208, 0.3);
+  --studio-bubble-user-bg: rgba(245, 166, 35, 0.08);
+  --studio-bubble-user-border: rgba(245, 166, 35, 0.15);
+  --studio-bubble-assistant-bg: rgba(255, 255, 255, 0.05);
+  --studio-btn-hover-bg: rgba(245, 166, 35, 0.1);
+  --studio-btn-hover-border: rgba(245, 166, 35, 0.2);
+  --studio-btn-hover-shadow: rgba(245, 166, 35, 0.08);
+  --studio-btn-primary-bg: rgba(245, 166, 35, 0.15);
+  --studio-btn-primary-border: rgba(245, 166, 35, 0.25);
+  --studio-btn-ghost-bg: rgba(255, 255, 255, 0.05);
+  --studio-tab-active-bg: rgba(245, 166, 35, 0.1);
+  --studio-tab-active-border: rgba(245, 166, 35, 0.2);
+  --studio-chip-active-bg: rgba(245, 166, 35, 0.12);
+  --studio-chip-active-border: rgba(245, 166, 35, 0.22);
+  --studio-focus-ring: rgba(245, 166, 35, 0.5);
+  --studio-accent-line: linear-gradient(90deg, rgba(245, 166, 35, 0.18), rgba(245, 166, 35, 0.04));
+  --studio-progress-track: rgba(255, 255, 255, 0.08);
+  --studio-progress-fill: #F5A623;
+  --studio-content-gradient-a: 0.06;
+  --studio-content-gradient-b: 0.1;
+  --studio-content-gradient-c: 0.16;
+  --studio-score-ring-active: #F5A623;
+  --studio-score-ring-track: rgba(255, 255, 255, 0.08);
+  --studio-score-ring-shadow: rgba(245, 166, 35, 0.2);
+  --studio-highlight-border: rgba(245, 166, 35, 0.15);
+  --studio-icon-surface-border: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme='light'] {
@@ -4163,5 +4162,119 @@ body, .studio-shell, .home-tab, .events-tab {
 .flower-stage { display: none !important; }
 .studio-screen {
   background: var(--studio-bg) !important;
+}
+
+/* ── Warm Midnight ambient background ── */
+.wm-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 80% 40% at 50% -5%, rgba(245,166,35,0.09) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 30% at 80% 90%, rgba(96,165,250,0.05) 0%, transparent 60%);
+}
+.studio-screen { position: relative; z-index: 1; }
+.studio-app { background: var(--studio-bg) !important; }
+
+/* ── Warm Midnight hero ── */
+.wm-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 1.5rem 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
+}
+.wm-hero--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.wm-hero__left { flex: 1; }
+.wm-hero__date {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--studio-text-muted);
+  margin-bottom: 0.35rem;
+}
+.wm-hero__greeting {
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--studio-text-bright);
+  margin: 0;
+}
+.wm-hero__name {
+  color: var(--studio-accent);
+}
+.wm-hero__ring {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+.wm-hero__ring-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+.wm-hero__score {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.wm-hero__score-label {
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--studio-text-muted);
+}
+
+/* ── Warm Midnight login overrides ── */
+.apple-login {
+  background: var(--studio-bg) !important;
+}
+.apple-login::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 35% at 50% 0%, rgba(245,166,35,0.1) 0%, transparent 65%);
+  z-index: 0;
+}
+.apple-login__wordmark {
+  background: linear-gradient(135deg, #FAF5EC 30%, #F5A623 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.apple-btn--primary {
+  background: #F5A623 !important;
+  color: #0A0912 !important;
+  font-weight: 700 !important;
+}
+.apple-btn--primary:hover { background: #f9b63a !important; }
+.apple-btn__hint { color: rgba(240,230,208,0.5) !important; }
+.apple-login__eyebrow { color: #F5A623 !important; }
+.apple-btn--text { color: #F5A623 !important; }
+.apple-input:focus { border-color: #F5A623 !important; }
+.apple-btn__avatar { background: #F5A623 !important; color: #0A0912 !important; }
+
+/* ── Active tab amber glow ── */
+[data-theme='dark'] .studio-tab--active .studio-tab__label {
+  color: #F5A623 !important;
+}
+[data-theme='dark'] .studio-tab--active .studio-tab__icon svg * {
+  fill: #F5A623 !important;
+  stroke: #F5A623 !important;
 }
 

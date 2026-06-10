@@ -18,6 +18,7 @@ export default function StudioShell({
 }: StudioShellProps) {
   return (
     <div className="studio-screen studio-app">
+      <div className="wm-ambient" aria-hidden="true" />
       {header}
       <AnimatedPanel panelKey={contentKey ?? 'content'} className="studio-app-content">
         {children}
