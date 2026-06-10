@@ -83,62 +83,65 @@ textarea {
 }
 
 [data-theme='dark'] {
-  --recall-coral: #FF8A6B;
-  --recall-sage: #6BBF8A;
-  --recall-lavender: #B8A4E8;
-  --studio-bg: #1A1420;
-  --studio-bg-deep: #120E18;
-  --studio-surface: rgba(12, 12, 12, 0.72);
-  --studio-surface-soft: rgba(255, 255, 255, 0.06);
-  --studio-text: #f5f5f5;
-  --studio-text-muted: rgba(255, 255, 255, 0.82);
-  --studio-text-bright: #ffffff;
-  --studio-accent: rgba(255, 255, 255, 0.92);
-  --studio-accent-soft: rgba(255, 255, 255, 0.12);
-  --studio-border: rgba(255, 255, 255, 0.12);
-  --studio-shadow: rgba(0, 0, 0, 0.6);
-  --studio-scrim-rgb: 0, 0, 0;
-  --studio-scrim-base: 0.76;
-  --studio-header-fade: rgba(0, 0, 0, 0.92);
-  --studio-glow-rgb: 255, 255, 255;
-  --studio-smoke-rgb: 255, 255, 255;
-  --studio-vignette-inner: rgba(0, 0, 0, 0.25);
-  --studio-vignette-outer: rgba(0, 0, 0, 0.65);
-  --studio-skeleton-a: rgba(255, 255, 255, 0.06);
-  --studio-skeleton-b: rgba(255, 255, 255, 0.12);
-  --studio-mic-pulse: rgba(255, 255, 255, 0.35);
-  --studio-card-bg: rgba(8, 8, 8, 0.82);
-  --studio-card-border: rgba(255, 255, 255, 0.14);
-  --studio-card-inset: rgba(255, 255, 255, 0.08);
-  --studio-chrome-bg: rgba(0, 0, 0, 0.68);
-  --studio-tabbar-bg: rgba(0, 0, 0, 0.78);
-  --studio-input-bg: rgba(0, 0, 0, 0.55);
-  --studio-input-placeholder: rgba(255, 255, 255, 0.45);
-  --studio-bubble-user-bg: rgba(255, 255, 255, 0.16);
-  --studio-bubble-user-border: rgba(255, 255, 255, 0.22);
-  --studio-bubble-assistant-bg: rgba(0, 0, 0, 0.55);
-  --studio-btn-hover-bg: rgba(255, 255, 255, 0.1);
-  --studio-btn-hover-border: rgba(255, 255, 255, 0.28);
-  --studio-btn-hover-shadow: rgba(255, 255, 255, 0.08);
-  --studio-btn-primary-bg: rgba(255, 255, 255, 0.12);
-  --studio-btn-primary-border: rgba(255, 255, 255, 0.22);
-  --studio-btn-ghost-bg: rgba(0, 0, 0, 0.35);
-  --studio-tab-active-bg: rgba(255, 255, 255, 0.09);
-  --studio-tab-active-border: rgba(255, 255, 255, 0.12);
-  --studio-chip-active-bg: rgba(255, 255, 255, 0.18);
-  --studio-chip-active-border: rgba(255, 255, 255, 0.35);
-  --studio-focus-ring: rgba(255, 255, 255, 0.45);
-  --studio-accent-line: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.15));
-  --studio-progress-track: rgba(255, 255, 255, 0.12);
-  --studio-progress-fill: rgba(255, 255, 255, 0.75);
-  --studio-content-gradient-a: 0.38;
-  --studio-content-gradient-b: 0.62;
-  --studio-content-gradient-c: 0.72;
-  --studio-score-ring-active: rgba(255, 255, 255, 0.88);
-  --studio-score-ring-track: rgba(255, 255, 255, 0.1);
-  --studio-score-ring-shadow: rgba(255, 255, 255, 0.08);
-  --studio-highlight-border: rgba(255, 255, 255, 0.18);
-  --studio-icon-surface-border: rgba(255, 255, 255, 0.1);
+  /* ── Luxury soft dark palette ── */
+  --recall-coral: #C9A564;
+  --recall-sage: #6DAA8F;
+  --recall-lavender: #A896D8;
+  --recall-gold: #C9A564;
+
+  --studio-bg: #09070F;
+  --studio-bg-deep: #050308;
+  --studio-surface: rgba(255, 248, 230, 0.06);
+  --studio-surface-soft: rgba(255, 248, 230, 0.04);
+  --studio-text: #E8DFCC;
+  --studio-text-muted: rgba(232, 223, 204, 0.45);
+  --studio-text-bright: #F8F2E4;
+  --studio-accent: rgba(201, 165, 100, 0.92);
+  --studio-accent-soft: rgba(201, 165, 100, 0.10);
+  --studio-border: rgba(201, 165, 100, 0.13);
+  --studio-shadow: rgba(0, 0, 0, 0.65);
+  --studio-scrim-rgb: 9, 7, 15;
+  --studio-scrim-base: 0.82;
+  --studio-header-fade: rgba(9, 7, 15, 0.96);
+  --studio-glow-rgb: 201, 165, 100;
+  --studio-smoke-rgb: 201, 165, 100;
+  --studio-vignette-inner: rgba(9, 7, 15, 0.15);
+  --studio-vignette-outer: rgba(9, 7, 15, 0.70);
+  --studio-skeleton-a: rgba(255, 248, 230, 0.04);
+  --studio-skeleton-b: rgba(255, 248, 230, 0.09);
+  --studio-mic-pulse: rgba(201, 165, 100, 0.4);
+  --studio-card-bg: rgba(255, 248, 230, 0.04);
+  --studio-card-border: rgba(201, 165, 100, 0.13);
+  --studio-card-inset: rgba(255, 248, 230, 0.07);
+  --studio-chrome-bg: rgba(9, 7, 15, 0.90);
+  --studio-tabbar-bg: rgba(9, 7, 15, 0.94);
+  --studio-input-bg: rgba(9, 7, 15, 0.7);
+  --studio-input-placeholder: rgba(232, 223, 204, 0.38);
+  --studio-bubble-user-bg: rgba(201, 165, 100, 0.12);
+  --studio-bubble-user-border: rgba(201, 165, 100, 0.22);
+  --studio-bubble-assistant-bg: rgba(9, 7, 15, 0.65);
+  --studio-btn-hover-bg: rgba(201, 165, 100, 0.08);
+  --studio-btn-hover-border: rgba(201, 165, 100, 0.28);
+  --studio-btn-hover-shadow: rgba(201, 165, 100, 0.12);
+  --studio-btn-primary-bg: rgba(201, 165, 100, 0.14);
+  --studio-btn-primary-border: rgba(201, 165, 100, 0.30);
+  --studio-btn-ghost-bg: rgba(9, 7, 15, 0.5);
+  --studio-tab-active-bg: rgba(201, 165, 100, 0.08);
+  --studio-tab-active-border: rgba(201, 165, 100, 0.18);
+  --studio-chip-active-bg: rgba(201, 165, 100, 0.12);
+  --studio-chip-active-border: rgba(201, 165, 100, 0.32);
+  --studio-focus-ring: rgba(201, 165, 100, 0.55);
+  --studio-accent-line: linear-gradient(90deg, rgba(201, 165, 100, 0.55), rgba(201, 165, 100, 0.12));
+  --studio-progress-track: rgba(255, 248, 230, 0.10);
+  --studio-progress-fill: #C9A564;
+  --studio-content-gradient-a: 0.50;
+  --studio-content-gradient-b: 0.75;
+  --studio-content-gradient-c: 0.90;
+  --studio-score-ring-active: #C9A564;
+  --studio-score-ring-track: rgba(255, 248, 230, 0.10);
+  --studio-score-ring-shadow: rgba(201, 165, 100, 0.25);
+  --studio-highlight-border: rgba(201, 165, 100, 0.20);
+  --studio-icon-surface-border: rgba(201, 165, 100, 0.14);
 }
 
 [data-theme='light'] {
@@ -3504,3 +3507,353 @@ html, body, #root {
 }
 
 .acse-dashboard__history { padding: 18px; margin-bottom: 14px; }
+
+/* ════════════════════════════════════════════════════════════════
+   LUXURY REDESIGN — soft dark, warm gold, scroll-reveal
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Dark-theme primary button → warm gold ── */
+[data-theme='dark'] .studio-btn--primary {
+  background: linear-gradient(135deg, #C9A564 0%, #D4B87A 60%, #B8924E 100%);
+  border-color: transparent;
+  color: #0C0A14;
+  box-shadow: 0 6px 24px rgba(201, 165, 100, 0.38);
+}
+
+[data-theme='dark'] .btn-electric {
+  background: linear-gradient(135deg, #C9A564 0%, #D4B87A 100%);
+  color: #0C0A14;
+  box-shadow: 0 8px 28px rgba(201, 165, 100, 0.38);
+}
+
+/* ── Tab bar active → gold glow ── */
+[data-theme='dark'] .studio-tab--active .studio-tab__icon {
+  color: #C9A564;
+  filter: drop-shadow(0 0 8px rgba(201, 165, 100, 0.55));
+}
+
+[data-theme='dark'] .studio-tab--active .studio-tab__label {
+  color: #C9A564;
+}
+
+/* ── Improved card depth in dark ── */
+[data-theme='dark'] .card {
+  background: rgba(255, 248, 230, 0.035);
+  border: 1px solid rgba(201, 165, 100, 0.12);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 248, 230, 0.07);
+}
+
+/* ── Score ring: gold fill in dark ── */
+[data-theme='dark'] .acse-dashboard__score-ring {
+  background: conic-gradient(
+    #C9A564 calc(var(--score) * 1%),
+    rgba(255, 248, 230, 0.08) 0
+  );
+  box-shadow: 0 0 40px rgba(201, 165, 100, 0.22);
+}
+
+[data-theme='dark'] .acse-dashboard__score-inner {
+  background: rgba(9, 7, 15, 0.9);
+  border-color: rgba(201, 165, 100, 0.15);
+}
+
+[data-theme='dark'] .acse-dashboard__score-value {
+  color: #F8F2E4;
+  font-weight: 200;
+  font-size: 44px;
+}
+
+/* ── Progress bars → gold ── */
+[data-theme='dark'] .acse-dashboard__track-fill {
+  background: linear-gradient(90deg, #C9A564, #D4B87A);
+  border-radius: 8px;
+  height: 100%;
+}
+
+/* ── Timeline badge colors ── */
+[data-theme='dark'] .timeline__badge {
+  background: rgba(201, 165, 100, 0.10);
+  color: #C9A564;
+  border: 1px solid rgba(201, 165, 100, 0.20);
+}
+
+[data-theme='dark'] .timeline__badge--future {
+  background: rgba(255, 248, 230, 0.04);
+  color: rgba(232, 223, 204, 0.5);
+  border: 1px solid rgba(255, 248, 230, 0.08);
+}
+
+/* ── Quick action icons → gold ── */
+[data-theme='dark'] .quick-action__icon {
+  background: rgba(201, 165, 100, 0.08);
+  border-color: rgba(201, 165, 100, 0.18);
+  color: #C9A564;
+}
+
+[data-theme='dark'] .event-icon-badge {
+  background: rgba(201, 165, 100, 0.07);
+  border-color: rgba(201, 165, 100, 0.15);
+  color: #C9A564;
+}
+
+[data-theme='dark'] .state-recon-card__icon {
+  background: rgba(201, 165, 100, 0.07);
+  border-color: rgba(201, 165, 100, 0.15);
+  color: #C9A564;
+}
+
+/* ── Take Now / med action button ── */
+[data-theme='dark'] .med-tracker__take-btn {
+  background: linear-gradient(135deg, #C9A564, #D4B87A) !important;
+  color: #0C0A14 !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 16px rgba(201, 165, 100, 0.3) !important;
+}
+
+/* ── Header logo mark → gold border ── */
+[data-theme='dark'] .recall-logo__mark {
+  border-color: rgba(201, 165, 100, 0.25);
+  background: rgba(201, 165, 100, 0.08);
+  color: #C9A564;
+}
+
+/* ── Scroll reveal ── */
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.scroll-reveal.revealed {
+  animation: revealUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Luxury hero ── */
+.luxury-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 8px;
+  gap: 24px;
+  position: relative;
+}
+
+.luxury-hero__orb-wrap {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Soft ambient glow behind orb */
+.luxury-hero__ambient {
+  position: absolute;
+  inset: -60px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(201, 165, 100, 0.18) 0%,
+    rgba(168, 150, 216, 0.08) 45%,
+    transparent 70%
+  );
+  animation: luxuryBreathe 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Secondary sage glow offset */
+.luxury-hero__ambient-2 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle at 40% 60%,
+    rgba(109, 170, 143, 0.10) 0%,
+    transparent 65%
+  );
+  animation: luxuryBreathe 7s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+
+/* Outer ring — rotates slowly */
+.luxury-hero__ring-outer {
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 165, 100, 0.15);
+  animation: luxuryRotateSlow 30s linear infinite;
+}
+
+/* Middle ring — dashed, rotates reverse */
+.luxury-hero__ring-mid {
+  position: absolute;
+  width: 188px;
+  height: 188px;
+  border-radius: 50%;
+  border: 1px dashed rgba(201, 165, 100, 0.22);
+  animation: luxuryRotateSlow 18s linear infinite reverse;
+}
+
+/* Inner ring — pulses */
+.luxury-hero__ring-inner {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 1px solid rgba(109, 170, 143, 0.20);
+  animation: luxuryPulseRing 4s ease-in-out infinite;
+}
+
+/* Core orb */
+.luxury-hero__core {
+  position: relative;
+  z-index: 2;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 35%,
+    rgba(255, 248, 230, 0.12) 0%,
+    rgba(201, 165, 100, 0.06) 50%,
+    transparent 100%
+  );
+  border: 1px solid rgba(201, 165, 100, 0.22);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 12px rgba(201, 165, 100, 0.04),
+    0 0 40px rgba(201, 165, 100, 0.10),
+    inset 0 1px 0 rgba(255, 248, 230, 0.12);
+  animation: luxuryBreathe 5s ease-in-out infinite;
+}
+
+.luxury-hero__score-num {
+  font-size: 38px;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: #F8F2E4;
+  line-height: 1;
+}
+
+.luxury-hero__score-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232, 223, 204, 0.45);
+  margin-top: 2px;
+}
+
+/* Orbiting particles */
+.luxury-hero__particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--sz, 3px);
+  height: var(--sz, 3px);
+  margin-top: calc(var(--sz, 3px) / -2);
+  margin-left: calc(var(--sz, 3px) / -2);
+  border-radius: 50%;
+  background: rgba(201, 165, 100, 0.85);
+  box-shadow: 0 0 6px rgba(201, 165, 100, 0.6);
+  animation: particleOrbit calc(var(--dur, 12s)) linear infinite;
+  animation-delay: var(--delay, 0s);
+  transform-origin: 0 0;
+}
+
+.luxury-hero__particle--sage {
+  background: rgba(109, 170, 143, 0.75);
+  box-shadow: 0 0 6px rgba(109, 170, 143, 0.5);
+}
+
+@keyframes particleOrbit {
+  from { transform: rotate(var(--start, 0deg)) translateX(var(--r, 110px)) rotate(calc(-1 * var(--start, 0deg))); }
+  to   { transform: rotate(calc(var(--start, 0deg) + 360deg)) translateX(var(--r, 110px)) rotate(calc(-1 * (var(--start, 0deg) + 360deg))); }
+}
+
+@keyframes luxuryRotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes luxuryBreathe {
+  0%, 100% { transform: scale(1);    opacity: 0.9; }
+  50%       { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes luxuryPulseRing {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.03); }
+}
+
+/* Text beneath orb */
+.luxury-hero__text {
+  text-align: center;
+}
+
+.luxury-hero__date {
+  font-size: 11px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(232, 223, 204, 0.42);
+  margin: 0 0 8px;
+}
+
+.luxury-hero__greeting {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  color: #F8F2E4;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* ── Cognitive aurora: luxury upgrade ── */
+[data-theme='dark'] .cognitive-aurora {
+  background: linear-gradient(135deg,
+    rgba(201, 165, 100, 0.08) 0%,
+    rgba(168, 150, 216, 0.06) 40%,
+    rgba(109, 170, 143, 0.06) 100%
+  );
+  border-bottom: 1px solid rgba(201, 165, 100, 0.12);
+}
+
+[data-theme='dark'] .cognitive-aurora__layer--1 {
+  background: radial-gradient(ellipse at 30% 50%, rgba(201, 165, 100, 0.22) 0%, transparent 60%);
+}
+
+[data-theme='dark'] .cognitive-aurora__layer--2 {
+  background: radial-gradient(ellipse at 70% 40%, rgba(168, 150, 216, 0.18) 0%, transparent 55%);
+}
+
+[data-theme='dark'] .cognitive-aurora__layer--3 {
+  background: radial-gradient(ellipse at 50% 80%, rgba(109, 170, 143, 0.14) 0%, transparent 50%);
+}
+
+[data-theme='dark'] .cognitive-aurora__label {
+  color: rgba(232, 223, 204, 0.55);
+  letter-spacing: 0.18em;
+}
+
+[data-theme='dark'] .cognitive-aurora__score {
+  color: #C9A564;
+  font-weight: 300;
+}

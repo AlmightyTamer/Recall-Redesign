@@ -14,7 +14,7 @@ import { getFlowers, type FlowerKey } from '../flowers';
 import ThemeToggle from '../components/ThemeToggle';
 import { isMedicationDueSoon } from '../lib/schedule';
 import { logout } from '../lib/session';
-import CognitiveAurora from '../components/CognitiveAurora';
+import LuxuryHero from '../components/LuxuryHero';
 import MemoryThreads from '../components/MemoryThreads';
 import PresencePulseBanner from '../components/PresencePulse';
 import WhereAmICard from '../components/WhereAmICard';
@@ -23,6 +23,7 @@ import FamiliarFaces from '../components/FamiliarFaces';
 import SafetyCircle from '../components/SafetyCircle';
 import EmergencySOS from '../components/EmergencySOS';
 import SettingsSheet from '../components/SettingsSheet';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 type Tab = 'home' | 'voice' | 'meds' | 'events' | 'stability';
 
@@ -174,25 +175,20 @@ function HomeTab({
     .slice(0, 3);
 
   const dateLabel = now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+  useScrollReveal(firstName);
 
   return (
     <div className="home-tab studio-scroll">
       <PresencePulseBanner />
 
-      <div className="home-tab__hero home-tab__hero--aurora">
-        <CognitiveAurora />
-        <div className="home-tab__hero-text">
-          <p className="home-tab__date">{dateLabel}</p>
-          <h1 className="home-tab__title">{timeGreeting()}, {firstName}</h1>
-        </div>
-      </div>
+      <LuxuryHero greeting={timeGreeting()} firstName={firstName} dateLabel={dateLabel} />
 
-      <WhereAmICard />
-      <StateReconCard />
-      <RoutineChecklist />
-      <MemoryThreads />
-      <FamiliarFaces />
-      <SafetyCircle />
+      <div className="scroll-reveal"><WhereAmICard /></div>
+      <div className="scroll-reveal"><StateReconCard /></div>
+      <div className="scroll-reveal"><RoutineChecklist /></div>
+      <div className="scroll-reveal"><MemoryThreads /></div>
+      <div className="scroll-reveal"><FamiliarFaces /></div>
+      <div className="scroll-reveal"><SafetyCircle /></div>
 
       {dueMeds.length > 0 && (
         <button
@@ -248,7 +244,7 @@ function HomeTab({
         </a>
       )}
 
-      <section className="home-tab__section">
+      <section className="home-tab__section scroll-reveal">
         <h3 className="studio-section-title">Quick actions</h3>
         <div className="quick-actions">
           <button type="button" className="quick-action tap-feedback" onClick={() => onNavigate('voice')}>
@@ -266,7 +262,7 @@ function HomeTab({
         </div>
       </section>
 
-      <section className="home-tab__section">
+      <section className="home-tab__section scroll-reveal">
         <h3 className="studio-section-title">Coming up</h3>
         {upcoming.length === 0 ? (
           <p className="studio-empty-note">Nothing scheduled — enjoy your day.</p>
