@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const deployTarget = process.env.VITE_DEPLOY_TARGET ?? 'pages';
-const base = deployTarget === 'capacitor' ? './' : '/recall/';
+const base = deployTarget === 'capacitor' ? './' : '/Recall-Redesign/';
 
 export default defineConfig({
   plugins: [react()],
