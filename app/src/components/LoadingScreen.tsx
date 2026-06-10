@@ -70,7 +70,7 @@ export default function LoadingScreen() {
         className="login-top splash-wordmark"
       >
         <RecallLogo size="lg" />
-        <p className="splash-tagline">Cognitive Care</p>
+        <p className="splash-tagline">Memory · Medicine · Moments</p>
       </div>
       <div className="splash-progress" aria-hidden>
         <div className="splash-progress__bar" />

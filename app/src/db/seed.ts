@@ -1,15 +1,42 @@
 import { db } from './db';
 
+function makeTime(base: Date, h: number, m = 0): string {
+  const d = new Date(base);
+  d.setHours(h, m, 0, 0);
+  return d.toISOString();
+}
+
+/** Shift demo events so "upcoming" items stay relevant relative to now */
+function demoEventTimes(now: Date): { past: (h: number, m?: number) => string; future: (h: number, m?: number) => string } {
+  const hour = now.getHours();
+
+  if (hour < 10) {
+    return {
+      past: (h, m) => makeTime(now, h, m),
+      future: (h, m) => makeTime(now, h, m),
+    };
+  }
+  if (hour < 14) {
+    return {
+      past: (h, m) => makeTime(now, Math.min(h, hour - 1), m),
+      future: (h, m) => makeTime(now, Math.max(h, hour + 1), m),
+    };
+  }
+  return {
+    past: (h, m) => makeTime(now, Math.min(h, 11), m),
+    future: (h, m) => {
+      const target = h <= 12 ? hour + 1 : h;
+      return makeTime(now, Math.max(target, hour + 1), m);
+    },
+  };
+}
+
 export async function seedIfEmpty(): Promise<void> {
   const userCount = await db.users.count();
   if (userCount >= 2) return;
 
   const now = new Date();
-  const makeTime = (h: number, m = 0) => {
-    const d = new Date(now);
-    d.setHours(h, m, 0, 0);
-    return d.toISOString();
-  };
+  const t = demoEventTimes(now);
 
   if (userCount === 0) {
     const userId = await db.users.add({
@@ -18,6 +45,7 @@ export async function seedIfEmpty(): Promise<void> {
       city: 'Shrewsbury, MA',
       caregiverName: 'Susan',
       caregiverRelationship: 'daughter',
+      caregiverPhone: '+15555550142',
       familyPhotoUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop',
       calmingMusicUrl: undefined,
       medications: [
@@ -30,7 +58,7 @@ export async function seedIfEmpty(): Promise<void> {
     await db.events.bulkAdd([
       {
         userId,
-        timestamp: makeTime(7, 30),
+        timestamp: t.past(7, 30),
         type: 'user_action',
         title: 'Breakfast',
         description: 'Margaret had oatmeal and orange juice for breakfast.',
@@ -39,7 +67,7 @@ export async function seedIfEmpty(): Promise<void> {
       },
       {
         userId,
-        timestamp: makeTime(8, 5),
+        timestamp: t.past(8, 5),
         type: 'user_action',
         title: 'Metformin taken',
         description: 'Margaret took Metformin 500mg. Vision verified.',
@@ -48,7 +76,7 @@ export async function seedIfEmpty(): Promise<void> {
       },
       {
         userId,
-        timestamp: makeTime(9, 15),
+        timestamp: t.past(9, 15),
         type: 'user_action',
         title: 'Morning walk',
         description: 'Margaret took a 20-minute walk in the garden.',
@@ -57,7 +85,7 @@ export async function seedIfEmpty(): Promise<void> {
       },
       {
         userId,
-        timestamp: makeTime(11, 0),
+        timestamp: t.future(11, 0),
         type: 'planned',
         title: "Daughter's phone call",
         description: 'Susan will call at 11:00 AM to check in.',
@@ -66,7 +94,7 @@ export async function seedIfEmpty(): Promise<void> {
       },
       {
         userId,
-        timestamp: makeTime(20, 0),
+        timestamp: t.future(20, 0),
         type: 'planned',
         title: 'Lisinopril — evening dose',
         description: 'Time to take Lisinopril 10mg with a glass of water.',
@@ -85,7 +113,7 @@ export async function seedIfEmpty(): Promise<void> {
     await db.medicationLogs.add({
       userId,
       medicationName: 'Metformin',
-      timestamp: makeTime(8, 5),
+      timestamp: t.past(8, 5),
       visionConfidence: 'high',
       visionDescription: 'Pill bottle clearly visible.',
       confirmed: true,
@@ -99,6 +127,7 @@ export async function seedIfEmpty(): Promise<void> {
       city: 'Worcester, MA',
       caregiverName: 'James',
       caregiverRelationship: 'son',
+      caregiverPhone: '+15555550287',
       familyPhotoUrl: 'https://images.unsplash.com/photo-1566616213894-2d3e1baee564?w=400&h=400&fit=crop',
       calmingMusicUrl: undefined,
       medications: [
@@ -111,7 +140,7 @@ export async function seedIfEmpty(): Promise<void> {
     await db.events.bulkAdd([
       {
         userId: userId2,
-        timestamp: makeTime(7, 15),
+        timestamp: t.past(7, 15),
         type: 'user_action',
         title: 'Morning tea',
         description: 'Harold had tea and toast for breakfast.',
@@ -120,7 +149,7 @@ export async function seedIfEmpty(): Promise<void> {
       },
       {
         userId: userId2,
-        timestamp: makeTime(21, 0),
+        timestamp: t.future(21, 0),
         type: 'planned',
         title: 'Donepezil — evening dose',
         description: 'Time to take Donepezil 10mg before bed.',

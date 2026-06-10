@@ -41,7 +41,10 @@ export default function VitalsDashboard({ patientName }: { patientName?: string 
 
   return (
     <div className="vitals-dashboard studio-scroll">
-      <p className="studio-section-title">Patient vitals</p>
+      <div className="vitals-dashboard__head">
+        <p className="studio-section-title">Patient vitals</p>
+        <span className="vitals-demo-badge">Demo data</span>
+      </div>
       <p className="vitals-dashboard__time">
         Last updated {new Date(vitals.recordedAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
       </p>

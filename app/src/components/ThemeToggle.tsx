@@ -12,7 +12,7 @@ export default function ThemeToggle() {
       className="studio-icon-btn tap-feedback theme-toggle"
       onClick={toggleTheme}
       aria-label={isLight ? 'Switch to dark theme' : 'Switch to light theme'}
-      aria-pressed={isLight}
+      aria-pressed={!isLight}
       title={isLight ? 'Dark mode' : 'Light mode'}
     >
       <StudioIcon name={isLight ? 'moon' : 'sun'} size={18} />

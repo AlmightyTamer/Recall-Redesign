@@ -22,6 +22,7 @@ type Phase =
 
 export default function MedTracker() {
   const user = useAppStore((s) => s.user);
+  const addSupervisorAlert = useAppStore((s) => s.addSupervisorAlert);
   const [selectedMed, setSelectedMed] = useState<Medication | null>(null);
   const [phase, setPhase] = useState<Phase>('list');
   const [retries, setRetries] = useState(0);
@@ -116,7 +117,14 @@ export default function MedTracker() {
       completed: false,
       source: 'system',
     });
-  }, [user]);
+
+    addSupervisorAlert({
+      message: `${medName} could not be verified — please check in with ${user.name.split(' ')[0]}.`,
+      timestamp: ts,
+      type: 'medication_unconfirmed',
+      persist: true,
+    });
+  }, [user, addSupervisorAlert]);
 
   const startCountdown = useCallback(() => {
     clearCountdown();

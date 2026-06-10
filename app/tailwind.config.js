@@ -5,10 +5,24 @@ export default {
     extend: {
       colors: {
         cream: {
-          50:  '#FDFAF6',
-          100: '#F8F4EF',
-          200: '#F0E8DC',
-          300: '#E5D5C0',
+          50:  '#FFFBF7',
+          100: '#FFF5EE',
+          200: '#FFE8D6',
+          300: '#FFD4B8',
+        },
+        coral: {
+          400: '#FF7E67',
+          500: '#FF6B4A',
+          600: '#E85A3A',
+        },
+        sage: {
+          400: '#6BBF8A',
+          500: '#4A9B6E',
+          600: '#3D8260',
+        },
+        lavender: {
+          400: '#B8A4E8',
+          500: '#9B82DC',
         },
         electric: {
           50:  '#EEF6FF',
@@ -33,12 +47,8 @@ export default {
         '4xl':  ['44px', { lineHeight: '1.1' }],
       },
       animation: {
-        'lava1': 'lava1 14s ease-in-out infinite',
-        'lava2': 'lava2 18s ease-in-out infinite',
-        'lava3': 'lava3 22s ease-in-out infinite',
-        'lava4': 'lava4 16s ease-in-out infinite',
-        'lava5': 'lava5 20s ease-in-out infinite',
-        'lava6': 'lava6 12s ease-in-out infinite',
+        'aurora': 'auroraShift 12s ease-in-out infinite',
+        'pulse-warmth': 'warmthPulse 2.4s ease-in-out infinite',
         'breathe-in':   'breatheScale 4s ease-in-out forwards',
         'breathe-hold': 'breatheHold 4s ease-in-out forwards',
         'breathe-out':  'breatheScale 4s ease-in-out reverse forwards',
@@ -47,34 +57,13 @@ export default {
         'slide-up':     'slideUp 0.4s ease-out forwards',
       },
       keyframes: {
-        lava1: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-          '33%':      { transform: 'translate(40px,-60px) scale(1.15)' },
-          '66%':      { transform: 'translate(-30px,40px) scale(0.9)' },
+        auroraShift: {
+          '0%, 100%': { filter: 'hue-rotate(0deg)' },
+          '50%': { filter: 'hue-rotate(25deg)' },
         },
-        lava2: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-          '25%':      { transform: 'translate(-50px,70px) scale(1.2)' },
-          '75%':      { transform: 'translate(60px,-40px) scale(0.85)' },
-        },
-        lava3: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-          '40%':      { transform: 'translate(30px,80px) scale(1.1)' },
-          '80%':      { transform: 'translate(-40px,-50px) scale(0.95)' },
-        },
-        lava4: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-          '50%':      { transform: 'translate(-60px,30px) scale(1.25)' },
-        },
-        lava5: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-          '30%':      { transform: 'translate(70px,50px) scale(0.9)' },
-          '70%':      { transform: 'translate(-20px,-70px) scale(1.15)' },
-        },
-        lava6: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-          '45%':      { transform: 'translate(-80px,-30px) scale(1.1)' },
-          '90%':      { transform: 'translate(50px,60px) scale(0.95)' },
+        warmthPulse: {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.08)', opacity: '0.85' },
         },
         breatheScale: {
           '0%':   { transform: 'scale(1)' },
@@ -88,8 +77,8 @@ export default {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         micPulse: {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(33,150,243,0.4)' },
-          '50%':      { boxShadow: '0 0 0 20px rgba(33,150,243,0)' },
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(255,107,74,0.4)' },
+          '50%':      { boxShadow: '0 0 0 20px rgba(255,107,74,0)' },
         },
         slideUp: {
           '0%':   { opacity: '0', transform: 'translateY(20px)' },

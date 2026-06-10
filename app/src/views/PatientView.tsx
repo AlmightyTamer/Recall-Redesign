@@ -13,6 +13,10 @@ import { db, type Event, type Medication } from '../db/db';
 import { getFlowers, type FlowerKey } from '../flowers';
 import ThemeToggle from '../components/ThemeToggle';
 import { isMedicationDueSoon } from '../lib/schedule';
+import { logout } from '../lib/session';
+import CognitiveAurora from '../components/CognitiveAurora';
+import MemoryThreads from '../components/MemoryThreads';
+import PresencePulseBanner from '../components/PresencePulse';
 
 type Tab = 'home' | 'voice' | 'meds' | 'events' | 'stability';
 
@@ -52,7 +56,7 @@ function formatTime(ts: string): string {
 
 export default function PatientView() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
-  const { user, setScreen, acseScore, theme } = useAppStore();
+  const { user, acseScore, theme } = useAppStore();
   const flowers = getFlowers(theme);
   const { recordNavigation } = useACSE();
 
@@ -83,7 +87,7 @@ export default function PatientView() {
             </div>
             <ThemeToggle />
             <button
-              onClick={() => setScreen('login')}
+              onClick={logout}
               className="studio-icon-btn tap-feedback"
               aria-label="Log out"
             >
@@ -117,6 +121,7 @@ export default function PatientView() {
           firstName={firstName}
           acseScore={acseScore}
           caregiverName={user?.caregiverName}
+          caregiverPhone={user?.caregiverPhone}
           medications={user?.medications ?? []}
         />
       )}
@@ -134,6 +139,7 @@ function HomeTab({
   firstName,
   acseScore,
   caregiverName,
+  caregiverPhone,
   medications,
 }: {
   events: Event[];
@@ -141,6 +147,7 @@ function HomeTab({
   firstName: string;
   acseScore: number;
   caregiverName?: string;
+  caregiverPhone?: string;
   medications: Medication[];
 }) {
   const now = new Date();
@@ -154,12 +161,18 @@ function HomeTab({
 
   return (
     <div className="home-tab studio-scroll">
-      <div className="home-tab__hero">
-        <p className="home-tab__date">{dateLabel}</p>
-        <h1 className="home-tab__title">{timeGreeting()}, {firstName}</h1>
+      <PresencePulseBanner />
+
+      <div className="home-tab__hero home-tab__hero--aurora">
+        <CognitiveAurora />
+        <div className="home-tab__hero-text">
+          <p className="home-tab__date">{dateLabel}</p>
+          <h1 className="home-tab__title">{timeGreeting()}, {firstName}</h1>
+        </div>
       </div>
 
       <StateReconCard />
+      <MemoryThreads />
 
       {dueMeds.length > 0 && (
         <button
@@ -206,7 +219,10 @@ function HomeTab({
       )}
 
       {caregiverName && (
-        <a href="tel:+15555550100" className="caregiver-chip tap-feedback">
+        <a
+          href={`tel:${caregiverPhone ?? '+15555550100'}`}
+          className="caregiver-chip tap-feedback"
+        >
           <StudioIcon name="user" size={18} />
           <span>Call {caregiverName}</span>
         </a>

@@ -7,6 +7,7 @@ export interface User {
   city: string;
   caregiverName: string;
   caregiverRelationship: string;
+  caregiverPhone?: string;
   familyPhotoUrl?: string;
   calmingMusicUrl?: string;
   medications: Medication[];
@@ -49,11 +50,32 @@ export interface AcseScore {
   reason?: string;
 }
 
+export interface SupervisorAlertRecord {
+  id?: number;
+  userId: number;
+  message: string;
+  timestamp: string;
+  type: 'comfort_mode' | 'medication_unconfirmed' | 'general' | 'presence';
+  dismissed: boolean;
+}
+
+export interface MemoryAnchorRecord {
+  id?: number;
+  userId: number;
+  title: string;
+  emoji: string;
+  anchorText: string;
+  speakText: string;
+  generatedAt: string;
+}
+
 class RecallDB extends Dexie {
   users!: Table<User>;
   events!: Table<Event>;
   medicationLogs!: Table<MedicationLog>;
   acseScores!: Table<AcseScore>;
+  supervisorAlerts!: Table<SupervisorAlertRecord>;
+  memoryAnchors!: Table<MemoryAnchorRecord>;
 
   constructor() {
     super('RecallDB');
@@ -62,6 +84,14 @@ class RecallDB extends Dexie {
       events: '++id, userId, timestamp, type, completed',
       medicationLogs: '++id, userId, medicationName, timestamp',
       acseScores: '++id, userId, timestamp',
+    });
+    this.version(2).stores({
+      users: '++id, name',
+      events: '++id, userId, timestamp, type, completed',
+      medicationLogs: '++id, userId, medicationName, timestamp',
+      acseScores: '++id, userId, timestamp',
+      supervisorAlerts: '++id, userId, timestamp, dismissed',
+      memoryAnchors: '++id, userId, generatedAt',
     });
   }
 }

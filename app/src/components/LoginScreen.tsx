@@ -12,18 +12,20 @@ import { db, type User } from '../db/db';
 import { seedIfEmpty } from '../db/seed';
 import { duration, EASE } from '../lib/motion';
 import { checkSupervisorAuth } from '../lib/auth';
+import { loadUserSession } from '../lib/session';
 import StudioIcon from './StudioIcon';
 
 type Role = 'patient' | 'supervisor' | null;
 
 export default function LoginScreen() {
-  const { setScreen, setUser, theme } = useAppStore();
+  const { setScreen, theme } = useAppStore();
   const flowers = getFlowers(theme);
   const [role, setRole] = useState<Role>(null);
   const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
   const [flowerKey, setFlowerKey] = useState<FlowerKey>('landing');
   const flowerSrc = flowers[flowerKey];
   const [password, setPassword] = useState('');
+  const [supervisorPatient, setSupervisorPatient] = useState<User | null>(null);
   const [error, setError] = useState('');
   const [transitioning, setTransitioning] = useState(false);
   const screenRef = useRef<HTMLDivElement>(null);
@@ -81,7 +83,7 @@ export default function LoginScreen() {
 
   const handlePatientLogin = async (patient: User) => {
     await seedIfEmpty();
-    setUser(patient);
+    await loadUserSession(patient);
     enterApp('patient');
   };
 
@@ -91,10 +93,13 @@ export default function LoginScreen() {
       setError(auth.error ?? 'Incorrect password.');
       return;
     }
+    if (!supervisorPatient) {
+      setError('Please select a patient to monitor.');
+      return;
+    }
     setError('');
     await seedIfEmpty();
-    const user = await db.users.toArray();
-    if (user[0]) setUser(user[0]);
+    await loadUserSession(supervisorPatient);
     enterApp('supervisor');
   };
 
@@ -102,7 +107,8 @@ export default function LoginScreen() {
     role === null ? 1 :
     role === 'patient' && !selectedPatient ? 2 :
     role === 'patient' && selectedPatient ? 3 :
-    2;
+    role === 'supervisor' && !supervisorPatient ? 2 :
+    3;
 
   return (
     <div ref={screenRef} className="studio-screen login-screen">
@@ -119,7 +125,7 @@ export default function LoginScreen() {
 
       <div className="login-top">
         <RecallLogo size="lg" />
-        <p className="login-subtitle">Cognitive care, gently guided</p>
+        <p className="login-subtitle">Memory, medication &amp; moments — woven together</p>
       </div>
 
       <div ref={panelRef} className="login-panel">
@@ -149,7 +155,7 @@ export default function LoginScreen() {
               </button>
               <button
                 className="studio-btn studio-btn--ghost tap-feedback login-role-btn"
-                onClick={() => { swapFlower('supervisor'); setRole('supervisor'); }}
+                onClick={() => { swapFlower('supervisor'); setRole('supervisor'); setSupervisorPatient(null); }}
               >
                 <span className="login-role-btn__icon"><StudioIcon name="profile" size={22} /></span>
                 <span className="studio-btn__label">Supervisor</span>
@@ -216,10 +222,43 @@ export default function LoginScreen() {
           </AnimatedPanel>
         )}
 
-        {role === 'supervisor' && (
+        {role === 'supervisor' && !supervisorPatient && (
+          <AnimatedPanel panelKey="supervisor-patient" stagger>
+            <p className="login-eyebrow">Supervisor</p>
+            <p className="login-greeting">Who are you caring for?</p>
+            <div className="login-actions login-actions--role-select">
+              {patients.map((p) => (
+                <button
+                  key={p.id}
+                  className="studio-btn studio-btn--primary tap-feedback login-patient-btn"
+                  onClick={() => {
+                    setSupervisorPatient(p);
+                    swapFlower('supervisor');
+                  }}
+                >
+                  <span className="login-patient-btn__avatar">
+                    {p.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
+                  </span>
+                  <span className="login-patient-btn__text">
+                    <span className="studio-btn__label">{p.name}</span>
+                    <span className="studio-btn__hint">{p.city}</span>
+                  </span>
+                </button>
+              ))}
+              <button
+                className="studio-btn studio-btn--text"
+                onClick={() => { swapFlower('landing'); setRole(null); }}
+              >
+                Back
+              </button>
+            </div>
+          </AnimatedPanel>
+        )}
+
+        {role === 'supervisor' && supervisorPatient && (
           <AnimatedPanel panelKey="supervisor" stagger>
             <p className="login-eyebrow">Supervisor</p>
-            <p className="login-greeting">Caregiver sign in</p>
+            <p className="login-greeting">Sign in for {supervisorPatient.name.split(' ')[0]}</p>
             <div className="login-actions" style={{ marginTop: 12 }}>
               <input
                 type="password"
@@ -239,7 +278,7 @@ export default function LoginScreen() {
               </button>
               <button
                 className="studio-btn studio-btn--text"
-                onClick={() => { swapFlower('landing'); setRole(null); setPassword(''); setError(''); }}
+                onClick={() => { setSupervisorPatient(null); setPassword(''); setError(''); }}
               >
                 Back
               </button>

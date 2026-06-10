@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { useAppStore } from '../store/appStore';
+import CognitiveAurora from './CognitiveAurora';
 import StudioIcon, { type IconName } from './StudioIcon';
 
 export default function ACSEDashboard() {
@@ -29,6 +30,7 @@ export default function ACSEDashboard() {
       <h2 className="studio-page-title">How you're doing</h2>
 
       <div className="card acse-dashboard__hero">
+        <CognitiveAurora compact />
         <div className="acse-dashboard__score-ring" style={{ '--score': acseScore } as CSSProperties}>
           <div className="acse-dashboard__score-inner">
             <span className="acse-dashboard__score-value">{acseScore}</span>

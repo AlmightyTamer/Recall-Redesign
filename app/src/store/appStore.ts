@@ -28,11 +28,12 @@ interface AppState {
   deductAcse: (points: number, reason: string) => void;
   activateComfortMode: () => void;
   deactivateComfortMode: () => void;
-  addSupervisorAlert: (alert: Omit<SupervisorAlert, 'id'>) => void;
+  addSupervisorAlert: (alert: Omit<SupervisorAlert, 'id'> & { persist?: boolean }) => void;
   clearSupervisorAlert: (id: string) => void;
   setIsZooming: (v: boolean) => void;
   setTheme: (theme: ThemeMode) => void;
   toggleTheme: () => void;
+  resetSession: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -46,7 +47,18 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setScreen: (screen) => set({ screen }),
   setUser: (user) => set({ user }),
-  setAcseScore: (score) => set({ acseScore: score }),
+  setAcseScore: (score) => {
+    set({ acseScore: score });
+    const user = get().user;
+    if (user?.id) {
+      db.acseScores.add({
+        userId: user.id,
+        score,
+        timestamp: new Date().toISOString(),
+        reason: 'Manual reset',
+      }).catch(console.error);
+    }
+  },
 
   deductAcse: (points, reason) => {
     const current = get().acseScore;
@@ -57,7 +69,6 @@ export const useAppStore = create<AppState>((set, get) => ({
       get().activateComfortMode();
     }
 
-    // Persist score to DB
     const user = get().user;
     if (user?.id) {
       db.acseScores.add({
@@ -77,6 +88,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       message: `Comfort Mode activated at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
       timestamp: new Date().toISOString(),
       type: 'comfort_mode',
+      persist: true,
     });
 
     if (user?.id) {
@@ -105,18 +117,33 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
   },
 
-  addSupervisorAlert: (alert) =>
+  addSupervisorAlert: (alert) => {
+    const id = `${Date.now()}-${Math.random()}`;
     set((state) => ({
-      supervisorAlerts: [
-        { ...alert, id: `${Date.now()}-${Math.random()}` },
-        ...state.supervisorAlerts,
-      ],
-    })),
+      supervisorAlerts: [{ ...alert, id }, ...state.supervisorAlerts],
+    }));
 
-  clearSupervisorAlert: (id) =>
+    const user = get().user;
+    if (alert.persist !== false && user?.id) {
+      db.supervisorAlerts.add({
+        userId: user.id,
+        message: alert.message,
+        timestamp: alert.timestamp,
+        type: alert.type,
+        dismissed: false,
+      }).catch(console.error);
+    }
+  },
+
+  clearSupervisorAlert: (id) => {
     set((state) => ({
       supervisorAlerts: state.supervisorAlerts.filter((a) => a.id !== id),
-    })),
+    }));
+    const numericId = Number(id);
+    if (!Number.isNaN(numericId)) {
+      db.supervisorAlerts.update(numericId, { dismissed: true }).catch(console.error);
+    }
+  },
 
   setIsZooming: (v) => set({ isZooming: v }),
 
@@ -132,4 +159,14 @@ export const useAppStore = create<AppState>((set, get) => ({
     preloadFlowers(next);
     set({ theme: next });
   },
+
+  resetSession: () =>
+    set({
+      screen: 'login',
+      user: null,
+      acseScore: 100,
+      comfortModeActive: false,
+      supervisorAlerts: [],
+      isZooming: false,
+    }),
 }));

@@ -156,7 +156,7 @@ export default function ComfortMode() {
               </button>
               {user?.caregiverName && (
                 <a
-                  href="tel:+15555550100"
+                  href={`tel:${user?.caregiverPhone ?? '+15555550100'}`}
                   className="studio-btn studio-btn--ghost tap-feedback comfort-mode__call"
                 >
                   <StudioIcon name="user" size={18} />

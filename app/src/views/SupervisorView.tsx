@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import StudioShell from '../components/StudioShell';
 import RecallLogo from '../components/RecallLogo';
 import StudioIcon, { type IconName } from '../components/StudioIcon';
@@ -9,6 +9,9 @@ import ThemeToggle from '../components/ThemeToggle';
 import VitalsDashboard from '../components/VitalsDashboard';
 import { addMedication, removeMedication, replaceMedication } from '../lib/medications';
 import type { Medication } from '../db/db';
+import StormRadar from '../components/StormRadar';
+import { logout } from '../lib/session';
+import { sendPresencePulse } from '../lib/presence';
 import { useAppStore } from '../store/appStore';
 import { db, type Event, type User } from '../db/db';
 
@@ -32,7 +35,7 @@ const TABS: { id: Tab; label: string; icon: IconName }[] = [
 
 export default function SupervisorView() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
-  const { user, supervisorAlerts, clearSupervisorAlert, setScreen, theme } = useAppStore();
+  const { user, supervisorAlerts, clearSupervisorAlert, theme } = useAppStore();
   const flowers = getFlowers(theme);
 
   return (
@@ -47,7 +50,7 @@ export default function SupervisorView() {
             <div className="studio-header__actions">
               <ThemeToggle />
               <button
-                onClick={() => setScreen('login')}
+                onClick={logout}
                 className="studio-icon-btn tap-feedback"
                 aria-label="Log out"
               >
@@ -99,10 +102,11 @@ export default function SupervisorView() {
 
 // ── Supervisor Home ───────────────────────────────────────────────────────────
 function SupervisorHomeTab({ user }: { user: User | null }) {
-  const { acseScore } = useAppStore();
+  const { acseScore, addSupervisorAlert } = useAppStore();
   const [quickTitle, setQuickTitle] = useState('');
   const [quickTime, setQuickTime] = useState('');
   const [saved, setSaved] = useState(false);
+  const [pulseSent, setPulseSent] = useState(false);
 
   const eventCount = useLiveQuery<number>(
     () => user?.id ? db.events.where('userId').equals(user.id).count() : Promise.resolve(0),
@@ -137,6 +141,35 @@ function SupervisorHomeTab({ user }: { user: User | null }) {
         <p className="studio-section-title">Patient care</p>
         <p className="supervisor-home__name">{user?.name ?? 'Patient'}</p>
       </div>
+
+      {user?.id && (
+        <div className="card presence-bridge">
+          <p className="presence-bridge__eyebrow">Presence Bridge™</p>
+          <p className="presence-bridge__text">
+            Send a warmth pulse — {user.name.split(' ')[0]} will see you are thinking of them.
+          </p>
+          <button
+            type="button"
+            className="btn-warmth tap-feedback"
+            onClick={() => {
+              sendPresencePulse(user.id!, user.caregiverName);
+              addSupervisorAlert({
+                message: `Warmth pulse sent to ${user.name.split(' ')[0]}`,
+                timestamp: new Date().toISOString(),
+                type: 'general',
+                persist: false,
+              });
+              setPulseSent(true);
+              setTimeout(() => setPulseSent(false), 3000);
+            }}
+          >
+            <StudioIcon name="heart" size={20} />
+            {pulseSent ? 'Sent with love ✓' : 'Send Warmth'}
+          </button>
+        </div>
+      )}
+
+      <StormRadar userId={user?.id} />
 
       <div className="card quick-event-card">
         <p className="studio-section-title">Add event now</p>
@@ -565,21 +598,14 @@ function StatsTab({ user }: { user: User | null }) {
                 formatter={(value: number) => [`${value}`, 'Score']}
                 contentStyle={{ fontSize: 14, borderRadius: 8 }}
               />
+              <ReferenceLine y={50} stroke="#EF4444" strokeDasharray="4 4" label={{ value: 'Comfort threshold', position: 'insideTopRight', fontSize: 11 }} />
               <Line
                 type="monotone"
                 dataKey="score"
-                stroke="#2196F3"
+                stroke="var(--recall-coral)"
                 strokeWidth={2}
-                dot={{ fill: '#2196F3', r: 3 }}
+                dot={{ fill: 'var(--recall-coral)', r: 3 }}
                 activeDot={{ r: 5 }}
-              />
-              <Line
-                type="monotone"
-                dataKey={() => 50}
-                stroke="#EF4444"
-                strokeWidth={1}
-                strokeDasharray="4 4"
-                dot={false}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -626,6 +652,7 @@ function ProfileTab() {
     city: user?.city ?? '',
     caregiverName: user?.caregiverName ?? '',
     caregiverRelationship: user?.caregiverRelationship ?? '',
+    caregiverPhone: user?.caregiverPhone ?? '',
     familyPhotoUrl: user?.familyPhotoUrl ?? '',
   });
 
@@ -676,6 +703,7 @@ function ProfileTab() {
         <Field label="Home City" value={form.city} onChange={(v) => setForm((p) => ({ ...p, city: v }))} />
         <Field label="Caregiver Name" value={form.caregiverName} onChange={(v) => setForm((p) => ({ ...p, caregiverName: v }))} />
         <Field label="Relationship" value={form.caregiverRelationship} onChange={(v) => setForm((p) => ({ ...p, caregiverRelationship: v }))} />
+        <Field label="Caregiver Phone" value={form.caregiverPhone} onChange={(v) => setForm((p) => ({ ...p, caregiverPhone: v }))} />
         <Field label="Family Photo URL" value={form.familyPhotoUrl} onChange={(v) => setForm((p) => ({ ...p, familyPhotoUrl: v }))} />
       </div>
 

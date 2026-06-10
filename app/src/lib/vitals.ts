@@ -24,6 +24,7 @@ export interface VitalsSnapshot {
   bodyTemp: VitalReading;
   orthostatic: OrthostaticBP[];
   orthostaticNote: string;
+  isDemo: true;
 }
 
 function spark(base: number, variance: number, points = 12): number[] {
@@ -34,23 +35,30 @@ function spark(base: number, variance: number, points = 12): number[] {
   });
 }
 
-/** Realistic demo vitals for supervisor dashboard */
+function seedFromName(name: string): number {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+/** Stable demo vitals — values stay consistent per patient name (labeled demo in UI) */
 export function getPatientVitals(patientName = 'Margaret'): VitalsSnapshot {
-  const now = new Date();
-  const hr = 74 + Math.floor(Math.random() * 4);
-  const rr = 16 + Math.floor(Math.random() * 2);
-  const weight = 142;
+  const seed = seedFromName(patientName);
+  const hr = 72 + (seed % 6);
+  const rr = 16 + (seed % 2);
+  const weight = 140 + (seed % 8);
   const heightIn = 64;
   const bmi = Math.round((weight / (heightIn * heightIn)) * 703 * 10) / 10;
-  const temp = 98.2 + Math.random() * 0.4;
+  const temp = 98.1 + (seed % 5) * 0.1;
 
-  const sittingSys = 128;
-  const sittingDia = 78;
-  const standingSys = 118;
-  const standingDia = 72;
+  const sittingSys = 126 + (seed % 6);
+  const sittingDia = 76 + (seed % 4);
+  const standingSys = sittingSys - 10;
+  const standingDia = sittingDia - 6;
 
   return {
-    recordedAt: now.toISOString(),
+    recordedAt: new Date().toISOString(),
+    isDemo: true,
     heartRate: {
       label: 'Heart Rate',
       value: String(hr),
