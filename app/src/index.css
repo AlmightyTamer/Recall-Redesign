@@ -3857,3 +3857,50 @@ html, body, #root {
   color: #C9A564;
   font-weight: 300;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SOUGEN HERO — dark editorial figure with eye-tracking
+   ════════════════════════════════════════════════════════════════ */
+
+.sougen-hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0 1rem;
+  gap: 20px;
+}
+
+.sougen-hero__figure {
+  width: 280px;
+  height: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sougen-hero__text {
+  text-align: center;
+}
+
+.sougen-hero__date {
+  font-size: 11px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(232, 223, 204, 0.42);
+  margin: 0 0 8px;
+}
+
+.sougen-hero__greeting {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  color: #E8DFCC;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.sougen-hero__eye {
+  transition: transform 0.08s ease;
+}
