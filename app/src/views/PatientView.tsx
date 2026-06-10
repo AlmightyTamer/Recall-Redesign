@@ -14,7 +14,7 @@ import { getFlowers, type FlowerKey } from '../flowers';
 import ThemeToggle from '../components/ThemeToggle';
 import { isMedicationDueSoon } from '../lib/schedule';
 import { logout } from '../lib/session';
-import SougenHero from '../components/SougenHero';
+import AppleHero from '../components/AppleHero';
 import MemoryThreads from '../components/MemoryThreads';
 import PresencePulseBanner from '../components/PresencePulse';
 import WhereAmICard from '../components/WhereAmICard';
@@ -181,7 +181,7 @@ function HomeTab({
     <div className="home-tab studio-scroll">
       <PresencePulseBanner />
 
-      <SougenHero greeting={timeGreeting()} firstName={firstName} dateLabel={dateLabel} />
+      <AppleHero greeting={timeGreeting()} firstName={firstName} dateLabel={dateLabel} />
 
       <div className="scroll-reveal"><WhereAmICard /></div>
       <div className="scroll-reveal"><StateReconCard /></div>

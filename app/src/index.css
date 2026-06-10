@@ -15,6 +15,7 @@
   --recall-lavender: #9B82DC;
   --recall-lavender-soft: #F0EBFF;
   --recall-gold: #F4B860;
+  --apple-font: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
   --studio-bg: #FFF5EE;
   --studio-bg-deep: #FFE8D6;
   --studio-surface: rgba(255, 255, 255, 0.94);
@@ -89,15 +90,15 @@ textarea {
   --recall-lavender: #A896D8;
   --recall-gold: #C9A564;
 
-  --studio-bg: #09070F;
-  --studio-bg-deep: #050308;
+  --studio-bg: #000000;
+  --studio-bg-deep: #000000;
   --studio-surface: rgba(255, 248, 230, 0.06);
   --studio-surface-soft: rgba(255, 248, 230, 0.04);
-  --studio-text: #E8DFCC;
-  --studio-text-muted: rgba(232, 223, 204, 0.45);
-  --studio-text-bright: #F8F2E4;
-  --studio-accent: rgba(201, 165, 100, 0.92);
-  --studio-accent-soft: rgba(201, 165, 100, 0.10);
+  --studio-text: #f5f5f7;
+  --studio-text-muted: rgba(245, 245, 247, 0.48);
+  --studio-text-bright: #ffffff;
+  --studio-accent: #0071e3;
+  --studio-accent-soft: rgba(0, 113, 227, 0.12);
   --studio-border: rgba(201, 165, 100, 0.13);
   --studio-shadow: rgba(0, 0, 0, 0.65);
   --studio-scrim-rgb: 9, 7, 15;
@@ -110,8 +111,8 @@ textarea {
   --studio-skeleton-a: rgba(255, 248, 230, 0.04);
   --studio-skeleton-b: rgba(255, 248, 230, 0.09);
   --studio-mic-pulse: rgba(201, 165, 100, 0.4);
-  --studio-card-bg: rgba(255, 248, 230, 0.04);
-  --studio-card-border: rgba(201, 165, 100, 0.13);
+  --studio-card-bg: rgba(255, 255, 255, 0.06);
+  --studio-card-border: rgba(255, 255, 255, 0.10);
   --studio-card-inset: rgba(255, 248, 230, 0.07);
   --studio-chrome-bg: rgba(9, 7, 15, 0.90);
   --studio-tabbar-bg: rgba(9, 7, 15, 0.94);
@@ -3903,4 +3904,106 @@ html, body, #root {
 
 .sougen-hero__eye {
   transition: transform 0.08s ease;
+}
+
+/* ── Apple-style hero ── */
+.apple-hero {
+  padding: 3rem 1.5rem 2rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.apple-hero--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.apple-hero__date {
+  font-family: var(--apple-font);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--studio-text-muted);
+  margin-bottom: 0.5rem;
+}
+.apple-hero__greeting {
+  font-family: var(--apple-font);
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--studio-text-bright);
+  margin: 0 0 1.25rem;
+}
+.apple-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  padding: 0.3rem 0.85rem;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.apple-hero__badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--score-color, #30d158);
+  box-shadow: 0 0 6px var(--score-color, #30d158);
+}
+.apple-hero__badge-label {
+  font-family: var(--apple-font);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--studio-text);
+  letter-spacing: 0.01em;
+}
+.apple-hero__rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--studio-border) 20%, var(--studio-border) 80%, transparent);
+  margin: 0 -1.5rem;
+}
+
+/* ── Apple global font override ── */
+body, .studio-shell, .home-tab, .events-tab {
+  font-family: var(--apple-font) !important;
+}
+.studio-section-title {
+  font-family: var(--apple-font);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+/* Card shimmer on dark */
+[data-theme='dark'] .studio-card,
+[data-theme='dark'] .event-card,
+[data-theme='dark'] .quick-action {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.09) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+/* Apple blue accent for active tab */
+[data-theme='dark'] .studio-tab--active .studio-tab__label {
+  color: #0071e3;
+}
+[data-theme='dark'] .studio-tab--active .studio-tab__icon svg path,
+[data-theme='dark'] .studio-tab--active .studio-tab__icon svg rect,
+[data-theme='dark'] .studio-tab--active .studio-tab__icon svg circle {
+  fill: #0071e3;
+  stroke: #0071e3;
+}
+
+/* Scroll reveal with Apple easing */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
