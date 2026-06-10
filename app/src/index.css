@@ -4007,3 +4007,161 @@ body, .studio-shell, .home-tab, .events-tab {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ── Apple login screen ── */
+.apple-login {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem 3rem;
+  background: var(--studio-bg);
+  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.apple-login__top {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.apple-login__wordmark {
+  font-family: var(--apple-font);
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--studio-text-bright);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.apple-login__tagline {
+  font-family: var(--apple-font);
+  font-size: 0.9rem;
+  color: var(--studio-text-muted);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.apple-login__card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--studio-card-bg);
+  border: 1px solid var(--studio-card-border);
+  border-radius: 18px;
+  padding: 2rem 1.75rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.apple-login__step { display: flex; flex-direction: column; gap: 0; }
+.apple-login__eyebrow {
+  font-family: var(--apple-font);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0071e3;
+  margin-bottom: 0.4rem;
+}
+.apple-login__title {
+  font-family: var(--apple-font);
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--studio-text-bright);
+  margin-bottom: 1.5rem;
+}
+.apple-login__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.apple-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-family: var(--apple-font);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  text-align: left;
+}
+.apple-btn:active { transform: scale(0.98); }
+.apple-btn--primary {
+  background: #0071e3;
+  color: #fff;
+  border-color: transparent;
+}
+.apple-btn--primary:hover { background: #0077ed; }
+.apple-btn--secondary {
+  background: var(--studio-surface-soft);
+  color: var(--studio-text);
+  border-color: var(--studio-border);
+}
+.apple-btn--secondary:hover { background: var(--studio-surface); }
+.apple-btn--ghost {
+  background: transparent;
+  color: var(--studio-text-muted);
+  border-color: var(--studio-border);
+}
+.apple-btn--ghost:hover { background: var(--studio-surface-soft); }
+.apple-btn--user {
+  background: var(--studio-surface-soft);
+  color: var(--studio-text);
+  border-color: var(--studio-border);
+}
+.apple-btn--user:hover { background: var(--studio-surface); }
+.apple-btn--text {
+  background: transparent;
+  color: #0071e3;
+  border-color: transparent;
+  font-size: 0.875rem;
+  font-weight: 400;
+  justify-content: center;
+  padding: 0.5rem;
+}
+.apple-btn__label { flex: 1; font-weight: 600; }
+.apple-btn__hint { font-size: 0.75rem; color: var(--studio-text-muted); font-weight: 400; }
+.apple-btn__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #0071e3;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.apple-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--studio-border);
+  background: var(--studio-input-bg);
+  color: var(--studio-text);
+  font-family: var(--apple-font);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.apple-input:focus { border-color: #0071e3; }
+.apple-error {
+  font-family: var(--apple-font);
+  font-size: 0.8rem;
+  color: #ff453a;
+  margin: 0;
+}
+
+/* ── Kill the flower background / scrim ── */
+.studio-app-scrim { display: none !important; }
+.flower-stage { display: none !important; }
+.studio-screen {
+  background: var(--studio-bg) !important;
+}
+
